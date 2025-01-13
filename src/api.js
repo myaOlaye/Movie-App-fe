@@ -27,6 +27,23 @@ export const getMovies = (page = 1) => {
 };
 
 
+
+export const findMovieById = (movie_id) => {
+  return api.get(`movie/${movie_id}`, {
+      params: {
+        api_key: API_KEY,
+        language: "en-US",
+      },
+    })
+    .then(({ data }) => 
+      console.log(data))
+    .catch((error) => {
+      console.error("Error fetching movie:", error);
+      return [];
+    });
+};
+
+
 // export const getGenres = () => {
 //   return api
 //     .get("/genre/movie/list", {
@@ -42,18 +59,18 @@ export const getMovies = (page = 1) => {
 //     });
 // };
 
-// export const searchMovies = (query) => {
-//   return api
-//     .get("/search/movie", {
-//       params: {
-//         api_key: API_KEY,
-//         query,
-//         language: "en-US",
-//       },
-//     })
-//     .then(({ data }) => data.results)
-//     .catch((error) => {
-//       console.error("Error searching for movies:", error);
-//       return [];
-//     });
-// };
+export const searchMovies = (query) => {
+  return api
+    .get("/search/movie", {
+      params: {
+        api_key: API_KEY,
+        query,
+        language: "en-US",
+      },
+    })
+    .then(({ data }) => data.results)
+    .catch((error) => {
+      console.error("Error searching for movies:", error);
+      return [];
+    });
+};

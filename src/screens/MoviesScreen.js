@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, Image, StyleSheet } from 'react-native';
-import { getMovies, searchMovies } from '../api';
+import { getMovies, searchMovies, findMovieById } from '../api';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
 export const MoviesScreen = () => {
@@ -27,7 +27,7 @@ export const MoviesScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 10 }}>
+    <View style={{ flex: 1, padding: 100 }}>
       <TextInput
         style={styles.input}
         placeholder="Search for movies"
@@ -44,7 +44,7 @@ export const MoviesScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.movieContainer}>
-            {/* Movie Poster */}
+    
             {item.poster_path ? (
               <Image
                 source={{ uri: `${IMAGE_BASE_URL}${item.poster_path}` }}
@@ -54,7 +54,7 @@ export const MoviesScreen = () => {
               <Text>No Image Available</Text>
             )}
             <Text style={styles.movieTitle}>{item.title}</Text>
-            <Button title="View Details" onPress={() => fetchMovieById(item.id)} />
+            <Button title="View Details" onPress={() => findMovieById(item.id)} />
           </View>
         )}
       />
