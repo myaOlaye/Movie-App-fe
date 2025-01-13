@@ -36,7 +36,8 @@ export const findMovieById = (movie_id) => {
       },
     })
     .then(({ data }) => 
-      console.log(data))
+      console.log(data
+      ))
     .catch((error) => {
       console.error("Error fetching movie:", error);
       return [];

@@ -12,15 +12,35 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [userName, setUserName]= useState('')
+
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    return passwordRegex.test(password);
+  };
 
   const handleSignup = () => {
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password || !confirmPassword || !userName) {
       Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    if (userName.length < 6) {
+      Alert.alert('Error', 'Username must be at least 6 characters long');
       return;
     }
 
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match');
+      return;
+
+    }
+
+    if (!validatePassword(password)) {
+      Alert.alert(
+        'Error',
+        'Password must contain at least one number and one special character'
+      );
       return;
     }
 
@@ -32,6 +52,14 @@ export default function SignupScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create Account</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={userName}
+        onChangeText={setUserName}
+        
+      />
       
       <TextInput
         style={styles.input}
