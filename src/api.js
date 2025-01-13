@@ -10,7 +10,7 @@ const API_KEY = 'aba290e69fb8923d05342f835b24c1fd';
 
 export const getMovies = (page = 1) => {
   return api
-    .get("/movie/popular", {
+    .get("/discover/movie", {
       params: {
         api_key: API_KEY,
         language: "en-US",
@@ -35,10 +35,8 @@ export const findMovieById = (movie_id) => {
         language: "en-US",
       },
     })
-    .then(({ data }) => 
-      console.log(data
-      ))
-    .catch((error) => {
+    .then(({ data }) => console.log(data))
+     .catch((error) => {
       console.error("Error fetching movie:", error);
       return [];
     });
