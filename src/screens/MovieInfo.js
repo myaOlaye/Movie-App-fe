@@ -33,7 +33,7 @@ const MovieInfo = () => {
         <View style={styles.container}>
             {movie && (
                 <>
-                    <Text style={styles.title}>{movie.title}</Text>
+                    <Text style={styles.title}>{`${movie.title} (${movie.release_date.split('-')[0]})`}</Text>
                     <Text style={styles.description}>{movie.overview}</Text>
                     <Image source={{ uri: `${IMAGE_BASE_URL}${movie.poster_path}` }} style={styles.poster} />
                 </>
