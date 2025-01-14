@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, Image, StyleSheet} from 'react-native';
 import { getMovies, searchMovies, findMovieById } from '../api';
+import MovieInfo from './MovieInfo';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
 
-export const MoviesScreen = () => {
+export const MoviesScreen = ({navigation}) => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -68,7 +69,7 @@ export const MoviesScreen = () => {
               <Text>No Image Available</Text>
             )}
             <Text style={styles.movieTitle}>{item.title}</Text>
-            <Button title="View Details" onPress={() => findMovieById(item.id)} />
+            <Button title="View Details" onPress={() => navigation.replace('MovieInfo', { id: item.id })} />
           </View>
         )}
       />

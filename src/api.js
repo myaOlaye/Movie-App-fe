@@ -34,7 +34,7 @@ export const findMovieById = (movie_id) => {
         language: "en-US",
       },
     })
-    .then(({ data }) => console.log(data))
+    .then(({ data }) => data)
      .catch((error) => {
       console.error("Error fetching movie:", error);
       return [];

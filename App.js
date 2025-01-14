@@ -5,6 +5,7 @@ import HomeScreen from './src/screens/Homescreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import { MoviesScreen } from './src/screens/MoviesScreen';
+import MovieInfo from './src/screens/MovieInfo';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,6 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-       
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -35,9 +35,13 @@ export default function App() {
           name="Movies"
           component={MoviesScreen}
           options={{
-            headerShown: false,
-      
-          }}
+            headerShown: false }}
+        />
+        <Stack.Screen
+        name="MovieInfo"
+        component={MovieInfo}
+        options={{
+          headerShown: false, }}
         />
       </Stack.Navigator>
     </NavigationContainer>
