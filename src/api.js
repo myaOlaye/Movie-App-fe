@@ -8,24 +8,23 @@ const api = axios.create({
 
 const API_KEY = 'aba290e69fb8923d05342f835b24c1fd';
 
-export const getMovies = (page = 1) => {
+export const getMovies = (page = 1, sortBy = "popularity", sortOrder = "desc") => {
+  console.log(sortBy, sortOrder);
   return api
     .get("/discover/movie", {
       params: {
         api_key: API_KEY,
         language: "en-US",
         page,
+        sort_by: `${sortBy}.${sortOrder}`,
       },
     })
-    .then(({ data }) => {
-      return data.results;
-    })
+    .then(({ data }) => data.results)
     .catch((error) => {
       console.error("Error fetching movies:", error);
       return [];
     });
 };
-
 
 
 export const findMovieById = (movie_id) => {

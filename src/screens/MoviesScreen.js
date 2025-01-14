@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TextInput, Button, Image, StyleSheet} from 'react-native';
 import { getMovies, searchMovies, findMovieById } from '../api';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
+
 export const MoviesScreen = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('popularity');
+  const [sortOrder, setSortOrder] = useState('desc');
 
- 
   useEffect(() => {
     setLoading(true);
-    getMovies(1).then((movies) => {
-      setMovies(movies);
-      setLoading(false);
+    getMovies(1, sortBy, sortOrder)
+      .then((fetchedMovies) => {
+        setMovies(fetchedMovies);
+        setLoading(false);  
+      })
+      .catch((error) => {
+        console.error('Error fetching movies:', error);
+        setLoading(false);
     });
-  }, []);
-
+  }, [sortBy, sortOrder]);
   
   const handleSearch = () => {
     setLoading(true);
@@ -25,6 +31,13 @@ export const MoviesScreen = () => {
       setLoading(false);
     });
   };
+  const handleSortByChange = (newSortBy) => {
+    if (newSortBy === sortBy) {
+      setSortOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
+    } else {
+    setSortBy(newSortBy);
+    setSortOrder('desc');
+  }};
 
   return (
     <View style={{ flex: 1, padding: 100 }}>
@@ -35,7 +48,8 @@ export const MoviesScreen = () => {
         onChangeText={(text) => setQuery(text)}
       />
       <Button title="Search" onPress={handleSearch} />
-
+      <Button title="Sort by Popularity" onPress={() => handleSortByChange('popularity')} />
+      <Button title="Sort by Release Date" onPress={() => handleSortByChange('release_date')} />
 
       {loading && <Text>Loading...</Text>}
 
