@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, Image, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { getMovies, searchMovies, findMovieById, getGenres, getMoviesByGenre } from '../api';
 import { MovieFilter } from '../components/MovieFilter';
+import { MoviesSearch } from '../components/MovieSearch';
 // import MovieInfo from './MovieInfo';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
 
 export const MoviesScreen = ({navigation}) => {
   const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState('popularity');
   const [sortOrder, setSortOrder] = useState('desc');
@@ -50,14 +50,6 @@ export const MoviesScreen = ({navigation}) => {
       });
   };
 
-  const handleSearch = () => {
-    setLoading(true);
-    searchMovies(query).then((results) => {
-      setMovies(results);
-      setLoading(false);
-    });
-  };
-
   const handleSortByChange = (newSortBy) => {
     if (newSortBy === sortBy) {
       setSortOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
@@ -73,13 +65,7 @@ export const MoviesScreen = ({navigation}) => {
 
   return (
     <View style={{ flex: 1, padding: 100 }}>
-      <TextInput
-        style={styles.input}
-        placeholder="Search for movies"
-        value={query}
-        onChangeText={(text) => setQuery(text)}
-      />
-      <Button title="Search" onPress={handleSearch} />
+      <MoviesSearch setMovies = {setMovies} setLoading={setLoading} />
       <Button title="Sort by Popularity" onPress={() => handleSortByChange('popularity')} />
       <Button title="Sort by Release Date" onPress={() => handleSortByChange('release_date')} />
       <Button title="Select Genre" onPress={openFilterModal}/>
@@ -121,6 +107,7 @@ export const MoviesScreen = ({navigation}) => {
             setMovieFilters={setMovieFilters}
             selectedGenres={selectedGenres}
             setSelectedGenres={setSelectedGenres}
+            movieFilters={movieFilters}
             />
             <TouchableOpacity
               style={styles.buttonClose}

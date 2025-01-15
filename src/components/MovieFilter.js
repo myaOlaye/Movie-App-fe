@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { getGenres } from '../api';
 
-export const MovieFilter = ({ setMovieFilters, selectedGenres, setSelectedGenres }) => {
+export const MovieFilter = ({ setMovieFilters, selectedGenres, setSelectedGenres, query, movieFilters }) => {
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const MovieFilter = ({ setMovieFilters, selectedGenres, setSelectedGenres
         setSelectedGenres([...selectedGenres, genreId]);
         return [...currMovieFilters, genreId];
       }
-    });
+    });console.log(query, movieFilters, "in handle check");
   };
 
   return (
