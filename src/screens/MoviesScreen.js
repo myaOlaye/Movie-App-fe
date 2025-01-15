@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, Image, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { getMovies, searchMovies, findMovieById, getGenres, getMoviesByGenre } from '../api';
+import { MovieFilter } from '../components/MovieFilter';
 // import MovieInfo from './MovieInfo';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
@@ -11,11 +12,11 @@ export const MoviesScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [sortBy, setSortBy] = useState('popularity');
   const [sortOrder, setSortOrder] = useState('desc');
-  // const [genre, setGenre] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedGenres, setSelectedGenres] = useState('');
   const [genres, setGenres] = useState([]);
+  const [movieFilters, setMovieFilters] = useState([]);
   
 
   useEffect(() => {
@@ -29,7 +30,16 @@ export const MoviesScreen = ({navigation}) => {
         console.error('Error fetching genres:', error);
         setLoading(false);
       });
-    getMovies(1, sortBy, sortOrder)
+    fetchMovies();
+  }, []);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [sortBy, sortOrder, movieFilters]);
+
+  const fetchMovies = () => {
+    setLoading(true);
+    getMovies(1, sortBy, sortOrder, movieFilters)
       .then((fetchedMovies) => {
         setMovies(fetchedMovies);
         setLoading(false);
@@ -38,8 +48,8 @@ export const MoviesScreen = ({navigation}) => {
         console.error('Error fetching movies:', error);
         setLoading(false);
       });
-  }, [sortBy, sortOrder]);
-  
+  };
+
   const handleSearch = () => {
     setLoading(true);
     searchMovies(query).then((results) => {
@@ -47,34 +57,18 @@ export const MoviesScreen = ({navigation}) => {
       setLoading(false);
     });
   };
+
   const handleSortByChange = (newSortBy) => {
     if (newSortBy === sortBy) {
       setSortOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
     } else {
-    setSortBy(newSortBy);
-    setSortOrder('desc');
-  }};
+      setSortBy(newSortBy);
+      setSortOrder('desc');
+    }
+  };
+
   const openFilterModal = () => {
     setModalVisible(true);
-  };
-
-  const handleGenreSelect = (genreId) => {
-    setSelectedGenre(genreId);
-    setModalVisible(false);
-    fetchMoviesByGenre(genreId);
-  };
-
-  const fetchMoviesByGenre = (genreId) => {
-    setLoading(true);
-    getMoviesByGenre(genreId)
-      .then((fetchedMovies) => {
-        setMovies(fetchedMovies);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching movies by genre:', error);
-        setLoading(false);
-      });
   };
 
   return (
@@ -88,7 +82,7 @@ export const MoviesScreen = ({navigation}) => {
       <Button title="Search" onPress={handleSearch} />
       <Button title="Sort by Popularity" onPress={() => handleSortByChange('popularity')} />
       <Button title="Sort by Release Date" onPress={() => handleSortByChange('release_date')} />
-      <Button title="Test button" onPress={() => openFilterModal('genre', 'Action')} />
+      <Button title="Select Genre" onPress={openFilterModal}/>
         
 
       {loading && <Text>Loading...</Text>}
@@ -123,17 +117,10 @@ export const MoviesScreen = ({navigation}) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Select Genre</Text>
-            <FlatList
-              data={genres}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.genreButton}
-                  onPress={() => handleGenreSelect(item.name)}
-                >
-                  <Text style={styles.textStyle}>{item.name}</Text>
-                </TouchableOpacity>
-              )}
+            <MovieFilter 
+            setMovieFilters={setMovieFilters}
+            selectedGenres={selectedGenres}
+            setSelectedGenres={setSelectedGenres}
             />
             <TouchableOpacity
               style={styles.buttonClose}
@@ -147,8 +134,6 @@ export const MoviesScreen = ({navigation}) => {
     </View>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   input: {
@@ -209,12 +194,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 15,
     textAlign: 'center',
-  },
-  genreButton: {
-    backgroundColor: '#2196F3',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginVertical: 5,
   },
 });

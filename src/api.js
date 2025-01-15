@@ -8,8 +8,8 @@ const api = axios.create({
 
 const API_KEY = 'aba290e69fb8923d05342f835b24c1fd';
 
-export const getMovies = (page = 1, sortBy = "popularity", sortOrder = "desc") => {
-  console.log(sortBy, sortOrder);
+export const getMovies = (page = 1, sortBy = "popularity", sortOrder = "desc", genres = []) => {
+  const genreString = genres.join(',');
   return api
     .get("/discover/movie", {
       params: {
@@ -17,6 +17,7 @@ export const getMovies = (page = 1, sortBy = "popularity", sortOrder = "desc") =
         language: "en-US",
         page,
         sort_by: `${sortBy}.${sortOrder}`,
+        with_genres: genreString,
       },
     })
     .then(({ data }) => data.results)

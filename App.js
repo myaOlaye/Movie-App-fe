@@ -41,7 +41,7 @@ export default function App() {
         name="MovieInfo"
         component={MovieInfo}
         options={{
-          headerShown: false, }}
+          headerShown: true, }}
         />
       </Stack.Navigator>
     </NavigationContainer>
