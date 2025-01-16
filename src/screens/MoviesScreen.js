@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { getMovies, getGenres } from '../api';
+import { getMovies, getGenres, searchMovies } from '../api';
 import { MovieFilter } from '../components/MovieFilter';
 import { MoviesSearch } from '../components/MovieSearch';
 import { MoviesCard } from '../components/MoviesCard';
-
 
 export const MoviesScreen = ({navigation}) => {
   const [movies, setMovies] = useState([]);
@@ -12,63 +11,44 @@ export const MoviesScreen = ({navigation}) => {
   const [sortBy, setSortBy] = useState('popularity');
   const [sortOrder, setSortOrder] = useState('desc');
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedGenres, setSelectedGenres] = useState('');
-  const [genres, setGenres] = useState([]);
-  const [movieFilters, setMovieFilters] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [query, setQuery] = useState('');
+
+  const isInitialMount = useRef(true);
   
-
   useEffect(() => {
     setLoading(true);
-    getGenres()
-      .then((fetchedGenres) => {
-        setGenres(fetchedGenres);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching genres:', error);
-        setLoading(false);
-      });
-    fetchMovies();
-  }, []);
-
-  useEffect(() => {
-    fetchMovies();
-  }, [sortBy, sortOrder, movieFilters]);
-
-  const fetchMovies = () => {
-    setLoading(true);
-    getMovies(1, sortBy, sortOrder, movieFilters)
+    getMovies(1, sortBy, sortOrder, selectedGenres)
       .then((fetchedMovies) => {
         setMovies(fetchedMovies);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching movies:', error);
-        setLoading(false);
       });
-  };
+  }, [sortBy, sortOrder, selectedGenres]);
 
-  const handleSortByChange = (newSortBy) => {
-    if (newSortBy === sortBy) {
-      setSortOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
-    } else {
-      setSortBy(newSortBy);
-      setSortOrder('desc');
-    }
-  };
+    useEffect(() => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+      } else {
+        setLoading(true);
+        searchMovies(query)
+          .then((fetchedMovies) => {
+            setMovies(fetchedMovies);
+            setLoading(false);
+          });
+      }
+    }, [query]);
 
-  const openFilterModal = () => {
+    const openFilterModal = () => {
     setModalVisible(true);
   };
 
   return (
     <View style={{ flex: 1, padding: 100 }}>
-      <MoviesSearch setMovies = {setMovies} setLoading={setLoading} />
+      <MoviesSearch setQuery={setQuery}/>
       <Button title="Sort by Popularity" onPress={() => handleSortByChange('popularity')} />
       <Button title="Sort by Release Date" onPress={() => handleSortByChange('release_date')} />
       <Button title="Select Genre" onPress={openFilterModal}/>
         
-
       {loading && <Text>Loading...</Text>}
 
 <MoviesCard 
@@ -88,10 +68,12 @@ movies={movies}
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Select Genre</Text>
             <MovieFilter 
-            setMovieFilters={setMovieFilters}
             selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres}
-            movieFilters={movieFilters}
+            setSelectedGenres={setSelectedGenres} 
+            setSortBy={setSortBy}
+            setSortOrder={setSortOrder}
+            setModalVisible={setModalVisible}
+            sortBy={sortBy}
             />
             <TouchableOpacity
               style={styles.buttonClose}

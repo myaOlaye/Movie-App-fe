@@ -58,21 +58,6 @@ export const getGenres = () => {
     });
 };
 
-export const getMoviesByGenre = (genreId) => {
-  return api
-    .get("/discover/movie", {
-      params: {
-        api_key: API_KEY,
-        with_genres: genreId,
-        language: "en-US",
-      },
-    })
-    .then(({ data }) => data.results)
-    .catch((error) => {
-      console.error("Error fetching movies by genre:", error);
-      return [];
-    });
-};
 
 export const searchMovies = (query) => {
   return api

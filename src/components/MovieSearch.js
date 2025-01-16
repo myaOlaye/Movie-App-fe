@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TextInput, Button, Image, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { searchMovies } from '../api';
 
-export const MoviesSearch = ({setMovies, setLoading}) => {
-    const [query, setQuery] = useState('');
+export const MoviesSearch = ({setQuery}) => {
+  const [queryInput, setQueryInput] = useState('');
 
     const handleSearch = () => {
-        setLoading(true);
-        searchMovies(query).then((results) => {
-          setMovies(results);
-          setLoading(false);
-        });
+        setQuery(queryInput);
       };
 
   return (
@@ -18,8 +14,8 @@ export const MoviesSearch = ({setMovies, setLoading}) => {
         <TextInput
         style={styles.input}
         placeholder="Search for movies"
-        value={query}
-        onChangeText={(text) => setQuery(text)}
+        value={queryInput}
+        onChangeText={(text) => setQueryInput(text)}
       />
     <Button title="Search" onPress={handleSearch} />
     </View>
