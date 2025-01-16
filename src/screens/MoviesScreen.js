@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TextInput, Button, Image, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { getMovies, searchMovies, findMovieById, getGenres, getMoviesByGenre } from '../api';
+import { View, Text, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import { getMovies, getGenres } from '../api';
 import { MovieFilter } from '../components/MovieFilter';
 import { MoviesSearch } from '../components/MovieSearch';
-// import MovieInfo from './MovieInfo';
+import { MoviesCard } from '../components/MoviesCard';
 
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';  
 
 export const MoviesScreen = ({navigation}) => {
   const [movies, setMovies] = useState([]);
@@ -13,7 +12,6 @@ export const MoviesScreen = ({navigation}) => {
   const [sortBy, setSortBy] = useState('popularity');
   const [sortOrder, setSortOrder] = useState('desc');
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('');
   const [selectedGenres, setSelectedGenres] = useState('');
   const [genres, setGenres] = useState([]);
   const [movieFilters, setMovieFilters] = useState([]);
@@ -73,24 +71,10 @@ export const MoviesScreen = ({navigation}) => {
 
       {loading && <Text>Loading...</Text>}
 
-      <FlatList
-        data={movies}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.movieContainer}>
-            {item.poster_path ? (
-              <Image
-                source={{ uri: `${IMAGE_BASE_URL}${item.poster_path}` }}
-                style={styles.poster}
-              />
-            ) : (
-              <Text>No Image Available</Text>
-            )}
-            <Text style={styles.movieTitle}>{item.title}</Text>
-            <Button title="View Details" onPress={() => navigation.replace('MovieInfo', { id: item.id })} />
-          </View>
-        )}
-      />
+<MoviesCard 
+navigation={navigation}
+movies={movies}
+/>
 
 <Modal
         animationType="slide"
