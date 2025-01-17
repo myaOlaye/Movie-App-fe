@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button, Picker } from 'react-native';
 import { getGenres } from '../api';
 
 export const MovieFilter = ({ selectedGenres, setSelectedGenres, setSortBy, setSortOrder, setModalVisible, sortBy}) => {
   const [genres, setGenres] = useState([]);
+  const [selectedSortOption, setSelectedSortOption] = useState('popularity-desc');
 
   useEffect(() => {
     getGenres().then((fetchedGenres) => {
@@ -20,25 +21,34 @@ export const MovieFilter = ({ selectedGenres, setSelectedGenres, setSortBy, setS
     });
   };
 
-  const handleSortByChange = (newSortBy) => {
-    if (newSortBy === sortBy) {
-      setSortOrder((prevOrder) => (prevOrder === 'desc' ? 'asc' : 'desc'));
-    } else {
-      setSortBy(newSortBy);
-      setSortOrder('desc');
-    }
+  const handleSortChange = (value) => {
+    const [sortField, order] = value.split('.')
+    setSortBy(sortField)
+    setSortOrder(order)
+    setSelectedSortOption(value)
   };
 
-  const openFilterModal = () => {
-    setModalVisible(true);
+  const closeFilterModal = () => {
+    setModalVisible(false);
   };
 
   return (
     
-    <View style={styles.genreContainer}>
-      <Button title="Sort by Popularity" onPress={() => handleSortByChange('popularity')} />
-      <Button title="Sort by Release Date" onPress={() => handleSortByChange('release_date')} />
-      <Button title="Select Genre" onPress={openFilterModal}/>
+    <View style={styles.container}>
+       <Picker
+        selectedValue={selectedSortOption}
+        onValueChange={handleSortChange}
+        style={styles.dropdown}
+      >
+        <Picker.Item label="Popularity (Descending)" value="popularity.desc" />
+        <Picker.Item label="Popularity (Ascending)" value="popularity.asc" />
+        <Picker.Item label="Release Date (Descending)" value="release_date.desc" />
+        <Picker.Item label="Release Date (Ascending)" value="release_date.asc" />
+        <Picker.Item label="Rating (Descending)" value="rating.desc" />
+        <Picker.Item label="Rating (Ascending)" value="rating.asc" />
+      </Picker>
+      <Button title="Update" onPress={closeFilterModal}/>
+      <View style={styles.genreContainer}>
       {genres.map((genre) => (
         <TouchableOpacity
           key={genre.id}
@@ -51,69 +61,34 @@ export const MovieFilter = ({ selectedGenres, setSelectedGenres, setSortBy, setS
           <Text style={styles.genreName}>{genre.name}</Text>
         </TouchableOpacity>
       ))}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 8,
-  },
-  movieContainer: {
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  poster: {
-    width: 120,
-    height: 180,
-    borderRadius: 8,
-  },
-  movieTitle: {
-    fontSize: 18,
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-    borderRadius: 20,
+  container: {
     padding: 10,
-    elevation: 2,
-    marginTop: 15,
   },
-  textStyle: {
+  dropdown: {
+    height: 50,
+    marginVertical: 10,
+  },
+  genreContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 10,
+  },
+  genreButton: {
+    backgroundColor: '#ccc',
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+  },
+  selectedGenreButton: {
+    backgroundColor: '#2196F3',
+  },
+  genreName: {
     color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 15,
-    textAlign: 'center',
   },
 });
-
