@@ -5,6 +5,7 @@ import HomeScreen from '../screens/Homescreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import { MoviesScreen } from '../screens/MoviesScreen';
+import { MyListsScreen } from '../screens/MyListsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,6 +48,16 @@ function BottomTabNavigator() {
       <Tab.Screen 
         name="Login"
         component={LoginScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen 
+        name="MyLists"
+        component={MyListsScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
