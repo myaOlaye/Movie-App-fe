@@ -7,6 +7,7 @@ import MovieListScreen from "./src/screens/MovieListScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
+import { SearchUser } from "./src/screens/SearchUserScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -54,6 +55,11 @@ export default function App() {
               <Ionicons name="person-add" size={size} color={color} />
             ),
           }}
+        />
+        <Stack.Screen
+          name="SearchUserScreen"
+          component={SearchUser}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

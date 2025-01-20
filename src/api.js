@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const OurFlicksBE = axios.create({
-  baseURL: "http://192.168.1.40:3000/api",
+  baseURL: "http://192.168.1.245:3000/api",
 });
 
 const API_KEY = "aba290e69fb8923d05342f835b24c1fd";
@@ -109,3 +109,9 @@ export const getMovieListItems = (movielist_id) => {
     return data;
   });
 };
+
+export const getUsers = () => {
+  return OurFlicksBE.get("/users").then(({ data }) => {
+    return data.users;
+  });
+}

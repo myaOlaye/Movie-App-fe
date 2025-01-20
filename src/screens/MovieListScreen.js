@@ -5,6 +5,7 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 
 import { getMovieListItems } from "../api";
+import { SearchUser } from "./SearchUserScreen";
 
 const MovieListScreen = () => {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ const MovieListScreen = () => {
               <MovieListItem
                 key={movie.tmdb_movie_id}
                 movie={movie}
+                navigation={navigation}
               ></MovieListItem>
             );
           })}{" "}
