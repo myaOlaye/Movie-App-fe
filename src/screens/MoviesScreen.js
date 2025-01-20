@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -7,19 +6,12 @@ import {
   StyleSheet,
   Modal,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
-import { getMovies, getGenres, searchMovies } from "../api";
+import { getMovies, searchMovies } from "../api";
 import { MovieFilter } from "../components/MovieFilter";
 import { MoviesSearch } from "../components/MovieSearch";
 import { MoviesCard } from "../components/MoviesCard";
-
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, Button, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { getMovies, getGenres, searchMovies } from '../api';
-import { MovieFilter } from '../components/MovieFilter';
-import { MoviesSearch } from '../components/MovieSearch';
-import { MoviesCard } from '../components/MoviesCard';
-
 
 export const MoviesScreen = ({ navigation }) => {
   const [movies, setMovies] = useState([]);
@@ -59,11 +51,9 @@ export const MoviesScreen = ({ navigation }) => {
   };
 
   return (
-
     <View style={styles.container}>
-      <MoviesSearch setQuery={setQuery}/>
-      <Button title="Filter" onPress={openFilterModal}/>
-        
+      <MoviesSearch setQuery={setQuery} />
+      <Button title="Filter" onPress={openFilterModal} />
 
       {loading && <Text>Loading...</Text>}
 
@@ -78,27 +68,25 @@ export const MoviesScreen = ({ navigation }) => {
         }}
       >
         <TouchableWithoutFeedback>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-
-            <Text style={styles.modalText}>Filter</Text>
-            <MovieFilter 
-            selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres} 
-            setSortBy={setSortBy}
-            setSortOrder={setSortOrder}
-            setModalVisible={setModalVisible}
-            sortBy={sortBy}
-
-            />
-            <TouchableOpacity
-              style={styles.buttonClose}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Close</Text>
-            </TouchableOpacity>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Filter</Text>
+              <MovieFilter
+                selectedGenres={selectedGenres}
+                setSelectedGenres={setSelectedGenres}
+                setSortBy={setSortBy}
+                setSortOrder={setSortOrder}
+                setModalVisible={setModalVisible}
+                sortBy={sortBy}
+              />
+              <TouchableOpacity
+                style={styles.buttonClose}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.textStyle}>Close</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
         </TouchableWithoutFeedback>
       </Modal>
     </View>
@@ -106,9 +94,7 @@ export const MoviesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container:
-  { flex: 1, 
-    padding: 50 },
+  container: { flex: 1, padding: 50 },
   input: {
     height: 40,
     borderColor: "gray",
