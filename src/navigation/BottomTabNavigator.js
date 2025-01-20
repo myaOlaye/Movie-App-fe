@@ -1,11 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import HomeScreen from "../screens/Homescreen";
-import LoginScreen from "../screens/LoginScreen";
-import SignupScreen from "../screens/SignupScreen";
+
 import { MoviesScreen } from "../screens/MoviesScreen";
-import { MyListsScreen } from "../screens/MyListsScreen";
+
 import MyListsStack from "./MyListsStack";
 
 const Tab = createBottomTabNavigator();
@@ -27,16 +25,6 @@ function BottomTabNavigator() {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Movies"
         component={MoviesScreen}
         options={{
@@ -46,16 +34,7 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={size} color={color} />
-          ),
-        }}
-      />
+
       <Tab.Screen
         name="MyLists"
         component={MyListsStack}
@@ -63,17 +42,6 @@ function BottomTabNavigator() {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" size={size} color={color} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Signup"
-        component={SignupScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-add" size={size} color={color} />
           ),
         }}
       />

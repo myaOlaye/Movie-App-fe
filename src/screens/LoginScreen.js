@@ -14,7 +14,7 @@ export default function LoginScreen({ navigation }) {
     }
     loginUser(email, password)
       .then(() => {
-        navigation.navigate("Movies");
+        navigation.navigate("Main", { screen: "Movies" });
       })
       .catch((error) => {
         console.error(error);
