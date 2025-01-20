@@ -7,7 +7,7 @@ import MovieListScreen from "./src/screens/MovieListScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
-import { SearchUser } from "./src/screens/SearchUserScreen";
+import { ShareWithUsers } from "./src/screens/ShareWithUsersScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -57,9 +57,9 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="SearchUserScreen"
-          component={SearchUser}
-          options={{ headerShown: false }}
+          name="Share"
+          component={ShareWithUsers}
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>
