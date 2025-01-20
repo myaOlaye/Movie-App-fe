@@ -35,7 +35,7 @@ const MovieListItem = ({ movie, navigation }) => {
           <Text style={styles.trashIcon}>🗑️</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-        onPress={() => navigation.navigate("SearchUserScreen")}
+        onPress={() => navigation.navigate("Share")}
         >
           <Text style={styles.share}>share</Text>
         </TouchableOpacity>
