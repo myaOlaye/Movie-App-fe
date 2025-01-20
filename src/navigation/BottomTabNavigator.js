@@ -1,11 +1,12 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import HomeScreen from '../screens/Homescreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
-import { MoviesScreen } from '../screens/MoviesScreen';
-import { MyListsScreen } from '../screens/MyListsScreen';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import HomeScreen from "../screens/Homescreen";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
+import { MoviesScreen } from "../screens/MoviesScreen";
+import { MyListsScreen } from "../screens/MyListsScreen";
+import MyListsStack from "./MyListsStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,19 +14,19 @@ function BottomTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { 
+        tabBarStyle: {
           height: 60,
           paddingBottom: 5,
           paddingTop: 5,
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           borderTopWidth: 1,
-          borderTopColor: '#eee'
+          borderTopColor: "#eee",
         },
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
+        tabBarActiveTintColor: "#007AFF",
+        tabBarInactiveTintColor: "#8E8E93",
       }}
     >
-      <Tab.Screen 
+      <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -35,7 +36,7 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen 
+      <Tab.Screen
         name="Movies"
         component={MoviesScreen}
         options={{
@@ -45,7 +46,7 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen 
+      <Tab.Screen
         name="Login"
         component={LoginScreen}
         options={{
@@ -55,9 +56,9 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen 
+      <Tab.Screen
         name="MyLists"
-        component={MyListsScreen}
+        component={MyListsStack}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
@@ -65,7 +66,8 @@ function BottomTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen 
+
+      <Tab.Screen
         name="Signup"
         component={SignupScreen}
         options={{

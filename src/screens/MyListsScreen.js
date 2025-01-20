@@ -1,10 +1,140 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { fetchToken, getUserMovieLists } from "../api";
 
-export const MyListsScreen = () => {
+export const MyListsScreen = ({ navigation }) => {
+  const [username, setUsername] = useState(null);
+  const [owner_id, setOwner_id] = useState(null);
+  const [movieLists, setMovieLists] = useState([]);
+
+  useEffect(() => {
+    fetchToken().then((res) => {
+      setOwner_id(res.data.decode.user_id);
+
+      setUsername(res.data.decode.username);
+    });
+  }, [owner_id, username]);
+
+  useEffect(() => {
+    if (owner_id) {
+      // should be owner_id below
+      getUserMovieLists(2).then(({ movieLists }) => {
+        setMovieLists(movieLists);
+      });
+    }
+  }, [owner_id]);
+
   return (
-    <View>
-      <Text>My Lists Screen</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Ionicons name="chevron-back" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.title}>{}</Text>
+      </View>
+      {/* Content */}
+      <View style={styles.content}>
+        <Text style={styles.subtitle}>Your Lists</Text>
+        {/* List Options */}
+        {movieLists.map((movieLists) => (
+          <TouchableOpacity
+            key={movieLists.movielist_id}
+            style={styles.card}
+            onPress={() => {
+              navigation.navigate("MovieList", {
+                movielist_id: movieLists.movielist_id,
+                name: movieLists.name,
+              });
+            }}
+          >
+            <View style={styles.cardContent}>
+              <Ionicons name="happy" size={24} color="#888" />
+              <Text style={styles.cardText}>{movieLists.name}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+        <TouchableOpacity style={styles.card}>
+          <View style={styles.cardContent}>
+            <Ionicons name="add" size={24} color="#888" />
+            <Text style={styles.cardText}>Create a new list</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
-}
+};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  backButton: {
+    marginRight: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  content: {
+    flex: 1,
+    padding: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  card: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  cardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cardText: {
+    fontSize: 16,
+    marginLeft: 12,
+  },
+  bottomNav: {
+    flexDirection: "row",
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
+    paddingVertical: 8,
+  },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  navText: {
+    fontSize: 12,
+    marginTop: 4,
+    color: "#888",
+  },
+  activeNavText: {
+    color: "#000",
+  },
+});
