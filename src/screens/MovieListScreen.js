@@ -1,11 +1,15 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import MovieListItem from "../components/MovieListItem";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from "react";
 import colours from "./theme/colours";
 import { getMovieListItems } from "../api";
-
 
 const MovieListScreen = () => {
   const navigation = useNavigation();
@@ -21,28 +25,41 @@ const MovieListScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Title */}
       <Text style={styles.title}>{name}</Text>
+
+      {/* Content */}
       {movies.length === 0 ? (
         <Text style={styles.emptyText}>This list is empty</Text>
       ) : (
         <View style={styles.listContainer}>
+          {/* Share Button */}
+          <TouchableOpacity
+            style={[styles.actionButton, styles.shareButton]}
+            onPress={() => navigation.navigate("Share")}
+          >
+            <Text style={styles.shareButtonText}>Share</Text>
+          </TouchableOpacity>
+
+          {/* Movie List */}
           {movies.map((movie) => (
             <MovieListItem
               key={movie.tmdb_movie_id}
               movie={movie}
               navigation={navigation}
               style={styles.movieItem}
+              movielist_id={movielist_id}
             />
           ))}
         </View>
       )}
+
+      {/* Add Movies Button */}
       <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => {
-          navigation.navigate("MovieSearch");
-        }}
+        style={[styles.actionButton, styles.addButton]}
+        onPress={() => navigation.navigate("MovieSearch")}
       >
-        <Text style={styles.buttonText}>Add Movies to List</Text>
+        <Text style={styles.addButtonText}>Add Movies to List</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -54,6 +71,13 @@ const styles = StyleSheet.create({
     backgroundColor: colours.background,
     padding: 16,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: colours.text,
+    textAlign: "center",
+    marginBottom: 16,
+  },
   listContainer: {
     flex: 1,
     gap: 12,
@@ -61,7 +85,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     color: colours.mutedText,
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
     marginTop: 32,
   },
@@ -71,22 +95,34 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     padding: 12,
   },
-  addButton: {
-    backgroundColor: colours.indigo,
+  actionButton: {
     padding: 16,
     borderRadius: 8,
-    marginVertical: 16,
+    marginVertical: 8,
     shadowColor: colours.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
-  buttonText: {
+  shareButton: {
+    backgroundColor: colours.accent,
+    marginBottom: 16,
+  },
+  shareButtonText: {
     color: colours.text,
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  addButton: {
+    backgroundColor: colours.indigo,
+  },
+  addButtonText: {
+    color: colours.text,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

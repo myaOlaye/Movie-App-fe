@@ -63,6 +63,7 @@ export const MyListsScreen = ({ navigation }) => {
           >
             <View style={styles.cardContent}>
               <Text style={styles.cardText}>{movieLists.name}</Text>
+              
             </View>
           </TouchableOpacity>
         ))}
