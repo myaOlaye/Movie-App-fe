@@ -30,7 +30,6 @@ const AddNoteScreen = () => {
       });
   };
 
-  console.log(comment);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>

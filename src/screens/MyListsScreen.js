@@ -14,6 +14,7 @@ export const MyListsScreen = ({ navigation }) => {
   const [username, setUsername] = useState(null);
   const [owner_id, setOwner_id] = useState(null);
   const [movieLists, setMovieLists] = useState([]);
+  const [excluded_movielist_ids, SetExcluded_movielist_ids] = useState([]);
 
   useEffect(() => {
     fetchToken().then((res) => {
@@ -25,10 +26,11 @@ export const MyListsScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (owner_id) {
-      // should be owner_id below
-      getUserMovieLists(2).then(({ movieLists }) => {
-        setMovieLists(movieLists);
-      });
+      getUserMovieLists(owner_id, excluded_movielist_ids).then(
+        ({ movieLists }) => {
+          setMovieLists(movieLists);
+        }
+      );
     }
   }, [owner_id]);
 
@@ -60,7 +62,6 @@ export const MyListsScreen = ({ navigation }) => {
             }}
           >
             <View style={styles.cardContent}>
-              <Ionicons name="happy" size={24} color="#888" />
               <Text style={styles.cardText}>{movieLists.name}</Text>
             </View>
           </TouchableOpacity>

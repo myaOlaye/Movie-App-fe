@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const OurFlicksBE = axios.create({
-  baseURL: "http://172.23.240.112:3000/api",
+  baseURL: "http://192.168.1.40:3000/api",
 });
 
 const API_KEY = "aba290e69fb8923d05342f835b24c1fd";
@@ -97,8 +97,15 @@ export const loginUser = (email, password) => {
   });
 };
 
-export const getUserMovieLists = (owner_id) => {
-  return OurFlicksBE.get(`/movielists/${owner_id}`).then(({ data }) => {
+export const getUserMovieLists = (owner_id, excluded_movielist_ids) => {
+  const params = {};
+  if (excluded_movielist_ids.length > 0) {
+    params.excluded_movielist_ids = excluded_movielist_ids.join(",");
+  }
+
+  return OurFlicksBE.get(`/movielists/${owner_id}`, {
+    params,
+  }).then(({ data }) => {
     return data;
   });
 };
@@ -108,7 +115,6 @@ export const getMovieListItems = (movielist_id) => {
     return data;
   });
 };
-
 
 export const addMovieToList = (movielist_id, tmdb_movie_id, notes) => {
   return OurFlicksBE.post(`/movielistItems`, {
@@ -122,5 +128,4 @@ export const getUsers = () => {
   return OurFlicksBE.get("/users").then(({ data }) => {
     return data.users;
   });
-}
-
+};
