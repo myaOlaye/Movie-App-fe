@@ -39,7 +39,7 @@ const MovieListScreen = () => {
       )}
       <Button
         onPress={() => {
-          navigation.navigate("Movies");
+          navigation.navigate("MovieSearch");
         }}
         title="Add Movies to List"
         color="#841584"

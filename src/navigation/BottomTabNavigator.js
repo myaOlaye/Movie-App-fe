@@ -1,8 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
-import { MoviesScreen } from "../screens/MoviesScreen";
+import MovieSearchStack from "./MovieSearchStack";
 
 import MyListsStack from "./MyListsStack";
 
@@ -25,8 +24,8 @@ function BottomTabNavigator() {
       }}
     >
       <Tab.Screen
-        name="Movies"
-        component={MoviesScreen}
+        name="MovieSearch"
+        component={MovieSearchStack}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (

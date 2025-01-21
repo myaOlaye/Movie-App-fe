@@ -10,7 +10,6 @@ const MovieListItem = ({ movie, navigation }) => {
 
   useEffect(() => {
     findMovieById(movie.tmdb_movie_id).then((movie) => {
-      console.log(movie);
       setMovieData(movie);
     });
   }, []);
