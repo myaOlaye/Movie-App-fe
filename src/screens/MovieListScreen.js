@@ -48,6 +48,7 @@ const MovieListScreen = () => {
               movie={movie}
               navigation={navigation}
               style={styles.movieItem}
+              movielist_id={movielist_id}
             />
           ))}
         </View>

@@ -3,15 +3,17 @@ import { View, Text, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { getMovieListItem } from "../apiCopy";
 
-export const CommentCard = ({ movieId }) => {
+export const CommentCard = ({movielist_id, tmdb_movie_id}) => {
   const route = useRoute();
-  const { movielist_id, tmdb_movie_id } = route.params;
+  
+  console.log("tmdb_movie_id", tmdb_movie_id);
+
   const [note, setNote] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getMovieListItem(3, 911)
+    getMovieListItem(movielist_id, tmdb_movie_id)
       .then(({ movie }) => {
         setNote(movie[0].notes);
         setLoading(false);
