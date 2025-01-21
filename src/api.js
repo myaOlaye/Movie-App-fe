@@ -83,7 +83,6 @@ export const searchMovies = (query) => {
 
 export const fetchToken = async () => {
   const token = await AsyncStorage.getItem("token");
-  console.log(token, "<--token in fetchToken");
   return OurFlicksBE.post("/users/userData", { token }).catch((error) => {
     console.error("Error fetching user:", error);
   });
@@ -107,5 +106,13 @@ export const getUserMovieLists = (owner_id) => {
 export const getMovieListItems = (movielist_id) => {
   return OurFlicksBE.get(`/movielistItems/${movielist_id}`).then(({ data }) => {
     return data;
+  });
+};
+
+export const addMovieToList = (movielist_id, tmdb_movie_id, notes) => {
+  return OurFlicksBE.post(`/movielistItems`, {
+    movielist_id,
+    tmdb_movie_id,
+    notes,
   });
 };

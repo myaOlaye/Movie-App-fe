@@ -2,8 +2,6 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
-import MovieInfo from "./src/screens/MovieInfo";
-import MovieListScreen from "./src/screens/MovieListScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
@@ -25,16 +23,7 @@ export default function App() {
           component={BottomTabNavigator}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="MovieInfo"
-          component={MovieInfo}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
-          name="MovieList"
-          component={MovieListScreen}
-          options={{ headerShown: true }}
-        />
+
         <Stack.Screen
           name="Login"
           component={LoginScreen}

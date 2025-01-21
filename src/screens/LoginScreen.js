@@ -7,7 +7,6 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log("in handle login");
     if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields");
       return;
