@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const OurFlicksBE = axios.create({
-  baseURL: "http://192.168.1.40:3000/api",
+  baseURL: "http://192.168.0.132:3000/api",
 });
 
 const API_KEY = "aba290e69fb8923d05342f835b24c1fd";
@@ -109,6 +109,7 @@ export const getMovieListItems = (movielist_id) => {
   });
 };
 
+
 export const addMovieToList = (movielist_id, tmdb_movie_id, notes) => {
   return OurFlicksBE.post(`/movielistItems`, {
     movielist_id,
@@ -116,3 +117,10 @@ export const addMovieToList = (movielist_id, tmdb_movie_id, notes) => {
     notes,
   });
 };
+
+export const getUsers = () => {
+  return OurFlicksBE.get("/users").then(({ data }) => {
+    return data.users;
+  });
+}
+

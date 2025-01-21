@@ -5,6 +5,7 @@ import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
+import { ShareWithUsers } from "./src/screens/ShareWithUsersScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -43,6 +44,11 @@ export default function App() {
               <Ionicons name="person-add" size={size} color={color} />
             ),
           }}
+        />
+        <Stack.Screen
+          name="Share"
+          component={ShareWithUsers}
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>

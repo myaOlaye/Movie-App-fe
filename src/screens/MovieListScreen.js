@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 import { getMovieListItems } from "../api";
 
+
 const MovieListScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
@@ -30,6 +31,7 @@ const MovieListScreen = () => {
               <MovieListItem
                 key={movie.tmdb_movie_id}
                 movie={movie}
+                navigation={navigation}
               ></MovieListItem>
             );
           })}{" "}

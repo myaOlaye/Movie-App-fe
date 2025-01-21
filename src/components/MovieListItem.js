@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { findMovieById } from "../api";
 
-const MovieListItem = ({ movie }) => {
+const MovieListItem = ({ movie, navigation }) => {
   const [movieData, setMovieData] = useState({});
 
   const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
@@ -32,6 +32,11 @@ const MovieListItem = ({ movie }) => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.trashIcon}>🗑️</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate("Share")}
+        >
+          <Text style={styles.share}>share</Text>
         </TouchableOpacity>
       </View>
     </View>
