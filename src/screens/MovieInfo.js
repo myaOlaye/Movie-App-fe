@@ -15,7 +15,7 @@ import { CommentCard } from "../components/CommentCard";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 function MovieInfo() {
   const route = useRoute();
-  const { id } = route.params;
+  const { id, showAddButton = true } = route.params;
   const navigation = useNavigation();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,26 +59,29 @@ function MovieInfo() {
           <View style={styles.descriptionContainer}>
             <Text style={styles.description}>{movie.overview}</Text>
           </View>
-          <TouchableOpacity style={styles.button}>
-            <Text
-              title="Add to watch Lists"
-              onPress={() =>
-                navigation.navigate("AddToListScreen", {
-                  movieName: movie.title,
-                  tmdb_movie_id: movie.id,
-                })
-              }
-              style={styles.buttonText}
-            >
-              Add to watch Lists
-            </Text>
-          </TouchableOpacity>
+          {showAddButton && (
+            <TouchableOpacity style={styles.button}>
+              <Text
+                title="Add to watch Lists"
+                onPress={() =>
+                  navigation.navigate("AddToListScreen", {
+                    movieName: movie.title,
+                    tmdb_movie_id: movie.id,
+                  })
+                }
+                style={styles.buttonText}
+              >
+                Add to watch Lists
+              </Text>
+            </TouchableOpacity>
+          )}
           <CommentCard movieId={id} />
         </ScrollView>
       )}
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

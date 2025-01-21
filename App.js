@@ -5,6 +5,7 @@ import BottomTabNavigator from "./src/navigation/BottomTabNavigator";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
+import MovieInfo from "./src/screens/MovieInfo";
 import { ShareWithUsers } from "./src/screens/ShareWithUsersScreen";
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
@@ -28,7 +29,10 @@ export default function App() {
           component={BottomTabNavigator}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen 
+        name="MovieInfo" 
+        component={MovieInfo} 
+        />
         <Stack.Screen
           name="Login"
           component={LoginScreen}

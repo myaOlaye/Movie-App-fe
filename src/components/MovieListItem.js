@@ -27,7 +27,15 @@ const MovieListItem = ({ movie, navigation }) => {
         <Text style={styles.description}>{movie.notes}</Text>
       </View>
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate("MovieInfo", {
+              id: movie.tmdb_movie_id,
+              showAddButton: false,
+            })
+          }
+        >
           <Text style={styles.buttonText}>View</Text>
         </TouchableOpacity>
         <TouchableOpacity>
