@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
 import MovieListItem from "../components/MovieListItem";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-
+import colours from "./theme/colours";
 import { getMovieListItems } from "../api";
 
 
@@ -20,33 +20,74 @@ const MovieListScreen = () => {
   }, [movielist_id]);
 
   return (
-    <>
-      <Text>{name}</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>{name}</Text>
       {movies.length === 0 ? (
-        <Text>This list is empty</Text>
+        <Text style={styles.emptyText}>This list is empty</Text>
       ) : (
-        <View>
-          {movies.map((movie) => {
-            return (
-              <MovieListItem
-                key={movie.tmdb_movie_id}
-                movie={movie}
-                navigation={navigation}
-              ></MovieListItem>
-            );
-          })}{" "}
+        <View style={styles.listContainer}>
+          {movies.map((movie) => (
+            <MovieListItem
+              key={movie.tmdb_movie_id}
+              movie={movie}
+              navigation={navigation}
+              style={styles.movieItem}
+            />
+          ))}
         </View>
       )}
-      <Button
+      <TouchableOpacity
+        style={styles.addButton}
         onPress={() => {
           navigation.navigate("MovieSearch");
         }}
-        title="Add Movies to List"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
-    </>
+      >
+        <Text style={styles.buttonText}>Add Movies to List</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colours.background,
+    padding: 16,
+  },
+  listContainer: {
+    flex: 1,
+    gap: 12,
+    paddingVertical: 8,
+  },
+  emptyText: {
+    color: colours.mutedText,
+    textAlign: 'center',
+    fontSize: 16,
+    marginTop: 32,
+  },
+  movieItem: {
+    backgroundColor: colours.midnightPurple,
+    borderRadius: 8,
+    marginBottom: 8,
+    padding: 12,
+  },
+  addButton: {
+    backgroundColor: colours.indigo,
+    padding: 16,
+    borderRadius: 8,
+    marginVertical: 16,
+    shadowColor: colours.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: colours.text,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});
 
 export default MovieListScreen;
