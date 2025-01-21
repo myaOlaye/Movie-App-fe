@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import colours from './theme/colours'; // Corrected import path
 
 export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -42,47 +43,43 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-
+      <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
+        placeholderTextColor={colours.mutedText}
         value={userName}
         onChangeText={setUserName}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Email"
+        placeholderTextColor={colours.mutedText}
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
       />
-
       <TextInput
         style={styles.input}
         placeholder="Password"
+        placeholderTextColor={colours.mutedText}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-
       <TextInput
         style={styles.input}
         placeholder="Confirm Password"
+        placeholderTextColor={colours.mutedText}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
-
-      <Button title="Sign Up" onPress={handleSignup} color="#007AFF" />
-
-      <Button
-        title="Already have an account? Login"
-        onPress={() => navigation.navigate("Login")}
-        color="#007AFF"
-      />
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.linkText}>Already have an account? Log in</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -90,22 +87,40 @@ export default function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colours.background, 
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 30,
-    textAlign: "center",
+    color: colours.text,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
+    width: '100%',
     padding: 15,
-    marginBottom: 15,
-    borderRadius: 10,
+    marginVertical: 10,
+    backgroundColor: colours.midnightPurple, 
+    borderRadius: 8,
+    color: colours.text,
+  },
+  button: {
+    backgroundColor: colours.indigo,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 25, 
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: colours.text,
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  linkText: {
+    color: colours.mutedText, 
+    marginTop: 20,
   },
 });

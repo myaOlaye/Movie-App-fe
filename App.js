@@ -8,6 +8,10 @@ import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import HomeScreen from "./src/screens/Homescreen";
 import { ShareWithUsers } from "./src/screens/ShareWithUsersScreen";
+import 'react-native-gesture-handler';
+import 'react-native-reanimated';
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
