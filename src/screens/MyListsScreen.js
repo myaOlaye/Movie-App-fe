@@ -62,6 +62,7 @@ export const MyListsScreen = ({ navigation }) => {
             <View style={styles.cardContent}>
               <Ionicons name="happy" size={24} color="#888" />
               <Text style={styles.cardText}>{movieLists.name}</Text>
+              
             </View>
           </TouchableOpacity>
         ))}
