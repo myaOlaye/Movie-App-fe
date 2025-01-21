@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { findMovieById } from "../api";
+import { findMovieById, getMovieListItems } from "../api";
 import {
   View,
   Text,
@@ -13,13 +13,16 @@ import {
 import { CommentCard } from "../components/CommentCard";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+
 function MovieInfo() {
   const route = useRoute();
-  const { id, showAddButton = true } = route.params;
+  const { id, showAddButton = true, movielist_id } = route.params;
+  console.log("id", id);
   const navigation = useNavigation();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     findMovieById(id)
       .then((movieData) => {
@@ -31,6 +34,7 @@ function MovieInfo() {
         setLoading(false);
       });
   }, [id]);
+
   if (loading) return <Text>Loading...</Text>;
   if (error) return <Text>Error: {error}</Text>;
 
@@ -59,14 +63,14 @@ function MovieInfo() {
           <View style={styles.descriptionContainer}>
             <Text style={styles.description}>{movie.overview}</Text>
           </View>
-          {showAddButton && (
+          {showAddButton ? (
             <TouchableOpacity style={styles.button}>
               <Text
                 title="Add to watch Lists"
                 onPress={() =>
                   navigation.navigate("AddToListScreen", {
                     movieName: movie.title,
-                    tmdb_movie_id: movie.id,
+                    tmdb_movie_id: id,
                   })
                 }
                 style={styles.buttonText}
@@ -74,8 +78,8 @@ function MovieInfo() {
                 Add to watch Lists
               </Text>
             </TouchableOpacity>
-          )}
-          <CommentCard movieId={id} />
+          ):
+          (<CommentCard movielist_id={movielist_id} tmdb_movie_id={id} />)}
         </ScrollView>
       )}
     </SafeAreaView>
@@ -162,4 +166,5 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
+
 export default MovieInfo;
