@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import colours from './theme/colours'; // Corrected import path
-
+import { registerUser } from "../api";
 export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
+  const [name, setName] = useState("");
 
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
@@ -14,12 +15,12 @@ export default function SignupScreen({ navigation }) {
   };
 
   const handleSignup = () => {
-    if (!email || !password || !confirmPassword || !userName) {
+    if (!email || !password || !confirmPassword || !username) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
-    if (userName.length < 6) {
+    if (username.length < 6) {
       Alert.alert("Error", "Username must be at least 6 characters long");
       return;
     }
@@ -37,8 +38,13 @@ export default function SignupScreen({ navigation }) {
       return;
     }
 
-    Alert.alert("Success", "Account has been created");
-    navigation.navigate("Login");
+    registerUser(name, username, email, password)
+    .then(()=>{
+      console.log("Account has been created");
+      Alert.alert("Success", "Account has been created");
+      navigation.navigate("Login");
+    })
+  
   };
 
   return (
@@ -46,9 +52,16 @@ export default function SignupScreen({ navigation }) {
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
+        placeholder="name"
+        placeholderTextColor={colours.mutedText}
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Username"
         placeholderTextColor={colours.mutedText}
-        value={userName}
+        value={username}
         onChangeText={setUserName}
       />
       <TextInput
