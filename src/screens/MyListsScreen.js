@@ -107,7 +107,21 @@ export const MyListsScreen = ({ navigation }) => {
 
   const handleResponse = (share_id, response) => {
     respondToShareRequest(share_id, response)
-      .then((res) => console.log("Response submitted:", res))
+      .then(() => {
+        // Find the specific list first
+        const acceptedList = recievedPendingMovieLists.find(
+          (list) => list.share_id === share_id
+        );
+        // Update the receivedPendingMovieLists to exclude the accepted list
+        setRecievedPendingMovieLists((prev) =>
+          prev.filter((list) => list.share_id !== share_id)
+        );
+
+        if (response === "accepted") {
+          // Add the accepted list to acceptedMovieLists
+          setAcceptedMovieLists((prev) => [...prev, acceptedList]);
+        }
+      })
       .catch((err) => console.error("Error responding to share request:", err));
   };
 
@@ -125,73 +139,6 @@ export const MyListsScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.subtitle}>Private Lists</Text>
-          {privateMovieLists.map((list) => (
-            <TouchableOpacity
-              key={list.movielist_id}
-              style={styles.card}
-              onPress={() =>
-                navigation.navigate("MovieList", {
-                  movielist_id: list.movielist_id,
-                  name: list.name,
-                })
-              }
-            >
-              <Image
-                source={{
-                  uri: userImage || "https://example.com/default-profile.png",
-                }}
-                style={styles.profileImage}
-              ></Image>
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🔒 {list.name}</Text>
-            </TouchableOpacity>
-          ))}
-
-          <Text style={styles.subtitle}>Accepted Shared Lists</Text>
-          {acceptedMovieLists.map((list) => (
-            <TouchableOpacity
-              key={list.movielist_id}
-              style={styles.card}
-              onPress={() =>
-                navigation.navigate("MovieList", {
-                  movielist_id: list.movielist_id,
-                  name: list.name,
-                })
-              }
-            >
-              <Image
-                source={{
-                  uri:
-                    list.userImage || "https://example.com/default-profile.png",
-                }}
-                style={styles.profileImage}
-              />
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🤝 {list.name}</Text>
-            </TouchableOpacity>
-          ))}
-
-          <Text style={styles.subtitle}>Sent Lists Pending Acceptance</Text>
-          {sentPendingMovieLists.map((list) => (
-            <View key={list.movielist_id} style={styles.pendingCard}>
-              <Image
-                source={{
-                  uri:
-                    list.userImage || "https://example.com/default-profile.png",
-                }}
-                style={styles.profileImage}
-              />
-              <View style={styles.pendingTextContainer}>
-                <Text style={styles.cardText}>{list.name}</Text>
-                <Text style={styles.pendingText}>
-                  Pending acceptance by {list.receiver_username}
-                </Text>
-              </View>
-            </View>
-          ))}
-
-          <Text style={styles.subtitle}>Received Join List Requests</Text>
           {recievedPendingMovieLists.map((list) => (
             <View key={list.movielist_id} style={styles.pendingCard}>
               <Image
@@ -218,6 +165,79 @@ export const MyListsScreen = ({ navigation }) => {
                   </TouchableOpacity>
                 </View>
               </View>
+            </View>
+          ))}
+
+          {privateMovieLists.map((list) => (
+            <TouchableOpacity
+              key={list.movielist_id}
+              style={styles.card}
+              onPress={() =>
+                navigation.navigate("MovieList", {
+                  movielist_id: list.movielist_id,
+                  name: list.name,
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri: userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              ></Image>
+              <Text style={styles.creatorText}>Creator</Text>
+              <Text style={styles.cardText}>🔒 {list.name}</Text>
+            </TouchableOpacity>
+          ))}
+
+          {acceptedMovieLists.map((list) => (
+            <TouchableOpacity
+              key={list.movielist_id}
+              style={styles.card}
+              onPress={() =>
+                navigation.navigate("MovieList", {
+                  movielist_id: list.movielist_id,
+                  name: list.name,
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              />
+              <Text style={styles.creatorText}>Creator</Text>
+              <Text style={styles.cardText}>🤝 {list.name}</Text>
+            </TouchableOpacity>
+          ))}
+
+          {sentPendingMovieLists.map((list) => (
+            <View key={list.movielist_id} style={styles.pendingCard}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("MovieList", {
+                    movielist_id: list.movielist_id,
+                    name: list.name,
+                  })
+                }
+              >
+                <Image
+                  source={{
+                    uri:
+                      list.userImage ||
+                      "https://example.com/default-profile.png",
+                  }}
+                  style={styles.profileImage}
+                />
+                <View style={styles.pendingTextContainer}>
+                  <Text style={styles.cardText}>{list.name}</Text>
+                  <Text style={styles.pendingText}>
+                    Pending acceptance by {list.receiver_username}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             </View>
           ))}
 
