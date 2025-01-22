@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,19 +8,32 @@ import {
   TouchableOpacity,
   Modal,
   TouchableWithoutFeedback,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { getUsers } from '../api';
-import { SearchUser } from '../components/SearchUser';
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { getUsers } from "../api";
+import { SearchUser } from "../components/SearchUser";
+import { fetchToken } from "../api";
+import { ShareMovie } from "../api";
 
 export const ShareWithUsers = () => {
+  const route = useRoute();
+  const { movielist_id } = route.params;
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [owner_id, setOwner_id] = useState(null);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    fetchToken().then((res) => {
+      setOwner_id(res.data.decode.user_id);
+      setUsername(res.data.decode.username);
+    });
+  }, [owner_id, username]);
 
   useEffect(() => {
     getUsers()
@@ -29,7 +42,7 @@ export const ShareWithUsers = () => {
         setFilteredUsers(fetchedUsers);
       })
       .catch((error) => {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -45,13 +58,26 @@ export const ShareWithUsers = () => {
 
   const closeFilterModal = () => {
     setModalVisible(false);
-    setSelectedUser(null); 
+    setSelectedUser(null);
   };
 
   const confirmShare = () => {
-    console.log('Sharing with user:', selectedUser);
     closeFilterModal();
-    // Add sharing functionality here/ navigae?
+    const reqBody = {
+      movielist_id,
+      owner_username: username,
+      receiver_username: selectedUser.username,
+    };
+
+    console.log(reqBody);
+    ShareMovie(reqBody)
+      .then(() => {
+        alert(`Share request sent to ${selectedUser.username}`);
+      })
+      .catch((error) => {
+        console.error("Error sharing movie:", error);
+        alert("Failed to send share request. Please try again.");
+      });
   };
 
   if (loading) {
@@ -121,58 +147,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#f9f9f9",
   },
   centered: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   userItem: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   noUsers: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 16,
-    color: '#888',
+    color: "#888",
     marginTop: 20,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: "80%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
     elevation: 5,
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
     marginTop: 10,
-    width: '80%',
-    alignItems: 'center',
+    width: "80%",
+    alignItems: "center",
   },
   cancelButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: "#FF6347",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 // Create an axios instance with the base URL
 const api = axios.create({
-  baseURL: 'http://192.168.1.245:3000/api/'
+  baseURL: "http://192.168.1.40:3000/api/",
 });
 
 export const fetchData = (endpoint, params = {}) => {
@@ -16,7 +16,7 @@ export const fetchData = (endpoint, params = {}) => {
 // Function to fetch a movie list item by movielist_id and tmdb_movie_id
 export const getMovieListItem = (movielist_id, tmdb_movie_id) => {
   return fetchData(`/movielistItems/${movielist_id}/${tmdb_movie_id}`)
-  .then((data) => data)
+    .then((data) => data)
     .catch((error) => {
       console.error("Error fetching movie list item:", error);
       return null;

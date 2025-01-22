@@ -6,9 +6,7 @@ const api = axios.create({
 });
 
 const OurFlicksBE = axios.create({
-
   baseURL: "http://192.168.1.40:3000/api",
-
 });
 
 const API_KEY = "aba290e69fb8923d05342f835b24c1fd";
@@ -106,7 +104,7 @@ export const getUserMovieLists = (owner_id, excluded_movielist_ids) => {
   }
 
   return OurFlicksBE.get(`/movielists/${owner_id}`, {
-    params,
+    params: params,
   }).then(({ data }) => {
     return data;
   });
@@ -130,4 +128,32 @@ export const getUsers = () => {
   return OurFlicksBE.get("/users").then(({ data }) => {
     return data.users;
   });
+};
+
+export const ShareMovie = (reqBody) => {
+  return OurFlicksBE.post("/movieListShares", reqBody).then(({ data }) => {
+    return data;
+  });
+};
+
+export const getMovieListShares = (username) => {
+  return OurFlicksBE.get(`/movieListShares/${username}`).then(({ data }) => {
+    return data;
+  });
+};
+
+export const getMovieListsByMovieListId = (movielist_id) => {
+  return OurFlicksBE.get(`/movieLists/movielistid/${movielist_id}`).then(
+    ({ data }) => {
+      return data;
+    }
+  );
+};
+
+export const respondToShareRequest = (share_id, response) => {
+  return OurFlicksBE.patch(`/movieListShares/${share_id}`, { response }).then(
+    ({ data }) => {
+      return data;
+    }
+  );
 };
