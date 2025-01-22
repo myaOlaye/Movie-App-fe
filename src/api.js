@@ -175,3 +175,9 @@ export const postNewList = (owner_id, listTitle) => {
     return data;
   });
 };
+
+export const getUser = (username) => {
+  return OurFlicksBE.get(`/users/${username}`).then(({ data }) => {
+    return data;
+  });
+};
