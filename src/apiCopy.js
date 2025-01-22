@@ -1,7 +1,7 @@
 import axios from 'axios';
 // Create an axios instance with the base URL
 const api = axios.create({
-  baseURL: 'http://192.168.1.245:3000/api/'
+  baseURL: 'http://192.168.1.65:3000/api/'
 });
 
 export const fetchData = (endpoint, params = {}) => {

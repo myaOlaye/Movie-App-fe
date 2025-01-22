@@ -67,7 +67,7 @@ export const MyListsScreen = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() =>{navigation.navigate("CreateList")}}>
           <View style={styles.cardContent}>
             <Ionicons name="add" size={24} color="#888" />
             <Text style={styles.cardText}>Create a new list</Text>

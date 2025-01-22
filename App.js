@@ -9,6 +9,7 @@ import MovieInfo from "./src/screens/MovieInfo";
 import { ShareWithUsers } from "./src/screens/ShareWithUsersScreen";
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
+import { CreateNewList } from "./src/screens/CreateNewList";
 
 
 const Stack = createNativeStackNavigator();
@@ -56,6 +57,11 @@ export default function App() {
         <Stack.Screen
           name="Share"
           component={ShareWithUsers}
+          options={{ headerShown: true }}
+        />
+            <Stack.Screen
+          name="CreateList"
+          component={CreateNewList}
           options={{ headerShown: true }}
         />
       </Stack.Navigator>
