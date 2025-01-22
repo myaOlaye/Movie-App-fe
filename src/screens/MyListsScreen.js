@@ -143,7 +143,8 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               ></Image>
-              <Text style={styles.cardText}>{list.name}</Text>
+              <Text style={styles.creatorText}>Creator</Text>
+              <Text style={styles.cardText}>🔒 {list.name}</Text>
             </TouchableOpacity>
           ))}
 
@@ -166,13 +167,14 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-              <Text style={styles.cardText}>{list.name}</Text>
+              <Text style={styles.creatorText}>Creator</Text>
+              <Text style={styles.cardText}>🤝 {list.name}</Text>
             </TouchableOpacity>
           ))}
 
           <Text style={styles.subtitle}>Sent Lists Pending Acceptance</Text>
           {sentPendingMovieLists.map((list) => (
-            <View key={list.movielist_id} style={styles.card}>
+            <View key={list.movielist_id} style={styles.pendingCard}>
               <Image
                 source={{
                   uri:
@@ -180,14 +182,18 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-              <Text style={styles.cardText}>{list.name}</Text>
-              <Text>Pending acceptance by {list.receiver_username}</Text>
+              <View style={styles.pendingTextContainer}>
+                <Text style={styles.cardText}>{list.name}</Text>
+                <Text style={styles.pendingText}>
+                  Pending acceptance by {list.receiver_username}
+                </Text>
+              </View>
             </View>
           ))}
 
           <Text style={styles.subtitle}>Received Join List Requests</Text>
           {recievedPendingMovieLists.map((list) => (
-            <View key={list.movielist_id} style={styles.card}>
+            <View key={list.movielist_id} style={styles.pendingCard}>
               <Image
                 source={{
                   uri:
@@ -195,32 +201,34 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-              <Text style={styles.cardText}>{list.name}</Text>
-              <TouchableOpacity
-                style={styles.buttonAccept}
-                onPress={() => handleResponse(list.share_id, "accepted")}
-              >
-                <Text style={styles.buttonText}>Accept</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonDecline}
-                onPress={() => handleResponse(list.share_id, "declined")}
-              >
-                <Text style={styles.buttonText}>Decline</Text>
-              </TouchableOpacity>
+              <View style={styles.pendingTextContainer}>
+                <Text style={styles.cardText}>{list.name}</Text>
+                <View style={styles.responseButtons}>
+                  <TouchableOpacity
+                    style={styles.buttonAccept}
+                    onPress={() => handleResponse(list.share_id, "accepted")}
+                  >
+                    <Text style={styles.buttonText}>Accept</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.buttonDecline}
+                    onPress={() => handleResponse(list.share_id, "declined")}
+                  >
+                    <Text style={styles.buttonText}>Decline</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           ))}
 
           <TouchableOpacity
-            style={styles.card}
+            style={styles.addButton}
             onPress={() => {
               navigation.navigate("CreateList");
             }}
           >
-            <View style={styles.cardContent}>
-              <Ionicons name="add" size={24} color="#888" />
-              <Text style={styles.cardText}>Create a new list</Text>
-            </View>
+            <Ionicons name="add" size={24} color="#888" />
+            <Text style={styles.addButtonText}>Create a new list</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -231,11 +239,11 @@ export const MyListsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa", // Light background color for a clean look
+    backgroundColor: "#f8f9fa",
   },
   scrollContent: {
     paddingHorizontal: 16,
-    paddingBottom: 32, // Extra space for scrolling
+    paddingBottom: 32,
   },
   header: {
     flexDirection: "row",
@@ -290,6 +298,29 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#e6e6e6",
   },
+  creatorText: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#888",
+    marginLeft: 8,
+  },
+  pendingCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  pendingTextContainer: {
+    flex: 1,
+    marginLeft: 12,
+  },
   buttonAccept: {
     backgroundColor: "#4caf50",
     paddingHorizontal: 16,
@@ -327,3 +358,103 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
 });
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#f8f9fa", // Light background color for a clean look
+//   },
+//   scrollContent: {
+//     paddingHorizontal: 16,
+//     paddingBottom: 32, // Extra space for scrolling
+//   },
+//   header: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     paddingVertical: 16,
+//     paddingHorizontal: 16,
+//     backgroundColor: "#ffffff",
+//     borderBottomWidth: 1,
+//     borderBottomColor: "#e6e6e6",
+//   },
+//   backButton: {
+//     marginRight: 16,
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: "700",
+//     color: "#2c3e50",
+//   },
+//   content: {
+//     paddingVertical: 16,
+//   },
+//   subtitle: {
+//     fontSize: 20,
+//     fontWeight: "600",
+//     color: "#34495e",
+//     marginBottom: 12,
+//   },
+//   card: {
+//     backgroundColor: "#ffffff",
+//     borderRadius: 12,
+//     padding: 16,
+//     marginBottom: 16,
+//     shadowColor: "#000",
+//     shadowOffset: { width: 0, height: 4 },
+//     shadowOpacity: 0.1,
+//     shadowRadius: 8,
+//     elevation: 4,
+//     flexDirection: "row",
+//     alignItems: "center",
+//   },
+//   cardText: {
+//     fontSize: 16,
+//     fontWeight: "500",
+//     color: "#2c3e50",
+//     flex: 1,
+//     marginLeft: 12,
+//   },
+//   profileImage: {
+//     width: 50,
+//     height: 50,
+//     borderRadius: 25,
+//     borderWidth: 2,
+//     borderColor: "#e6e6e6",
+//   },
+//   buttonAccept: {
+//     backgroundColor: "#4caf50",
+//     paddingHorizontal: 16,
+//     paddingVertical: 8,
+//     borderRadius: 8,
+//     alignSelf: "flex-start",
+//     marginTop: 8,
+//     marginRight: 8,
+//   },
+//   buttonDecline: {
+//     backgroundColor: "#e74c3c",
+//     paddingHorizontal: 16,
+//     paddingVertical: 8,
+//     borderRadius: 8,
+//     alignSelf: "flex-start",
+//     marginTop: 8,
+//   },
+//   buttonText: {
+//     fontSize: 14,
+//     fontWeight: "600",
+//     color: "#ffffff",
+//   },
+//   addButton: {
+//     backgroundColor: "#f1f1f1",
+//     borderRadius: 12,
+//     padding: 16,
+//     marginBottom: 16,
+//     flexDirection: "row",
+//     alignItems: "center",
+//   },
+//   addButtonText: {
+//     fontSize: 16,
+//     fontWeight: "500",
+//     color: "#888888",
+//     marginLeft: 12,
+//   },
+// });
