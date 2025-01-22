@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import colours from './theme/colours'; // Corrected import path
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import colours from "./theme/colours"; // Corrected import path
 import { registerUser } from "../api";
 export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -38,13 +45,11 @@ export default function SignupScreen({ navigation }) {
       return;
     }
 
-    registerUser(name, username, email, password)
-    .then(()=>{
+    registerUser(name, username, email, password).then(() => {
       console.log("Account has been created");
       Alert.alert("Success", "Account has been created");
       navigation.navigate("Login");
-    })
-  
+    });
   };
 
   return (
@@ -90,7 +95,7 @@ export default function SignupScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={styles.linkText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </View>
@@ -100,22 +105,22 @@ export default function SignupScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    backgroundColor: colours.background, 
+    backgroundColor: colours.background,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 30,
     color: colours.text,
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 15,
     marginVertical: 10,
-    backgroundColor: colours.midnightPurple, 
+    backgroundColor: colours.midnightPurple,
     borderRadius: 8,
     color: colours.text,
   },
@@ -123,17 +128,17 @@ const styles = StyleSheet.create({
     backgroundColor: colours.indigo,
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 25, 
-    alignItems: 'center',
+    borderRadius: 25,
+    alignItems: "center",
     marginVertical: 10,
   },
   buttonText: {
     color: colours.text,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   linkText: {
-    color: colours.mutedText, 
+    color: colours.mutedText,
     marginTop: 20,
   },
 });

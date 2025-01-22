@@ -7,21 +7,27 @@ import {
   SafeAreaView,
 } from "react-native";
 import MovieListItem from "../components/MovieListItem";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import {
+  useRoute,
+  useNavigation,
+  useIsFocused,
+} from "@react-navigation/native";
 import colours from "./theme/colours";
 import { getMovieListItems } from "../api";
 
 const MovieListScreen = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const route = useRoute();
   const { movielist_id, name } = route.params;
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    getMovieListItems(movielist_id).then(({ movieListItems }) => {
-      setMovies(movieListItems);
-    });
-  }, [movielist_id]);
+    if (isFocused)
+      getMovieListItems(movielist_id).then(({ movieListItems }) => {
+        setMovies(movieListItems);
+      });
+  }, [movielist_id, isFocused]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +39,6 @@ const MovieListScreen = () => {
         <Text style={styles.emptyText}>This list is empty</Text>
       ) : (
         <View style={styles.listContainer}>
-        
           <TouchableOpacity
             style={[styles.actionButton, styles.shareButton]}
             onPress={() => navigation.navigate("Share")}

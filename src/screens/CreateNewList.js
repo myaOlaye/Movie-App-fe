@@ -9,50 +9,53 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
+
 import { fetchToken } from "../api";
 import { postNewList } from "../api";
 
-export const CreateNewList = () => {
-    const [username, setUsername] = useState(null);
-    const [user_id, setUser_id] = useState(null);
-    const [listTitle, setListTitle] = useState("");
+export const CreateNewList = ({ navigation }) => {
+  const [username, setUsername] = useState(null);
+  const [user_id, setUser_id] = useState(null);
+  const [listTitle, setListTitle] = useState("");
 
-const handleCreateList = () => {
+  const handleCreateList = () => {
     postNewList(user_id, listTitle)
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        navigation.navigate("Main", { screen: "MyLists" });
       })
       .catch((err) => console.error("Error creating list:", err));
+  };
+
+  useEffect(() => {
+    fetchToken()
+      .then((res) => {
+        console.log(res.data.decode);
+        const { user_id, username } = res.data.decode;
+        setUser_id(user_id);
+        setUsername(username);
+      })
+      .catch((err) => console.error("Error fetching token:", err));
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.notesTitle}>
+        What would you like to call your list?
+      </Text>
+      <TextInput
+        style={styles.textInput}
+        placeholder="Name your list"
+        value={listTitle}
+        onChangeText={setListTitle}
+        multiline
+        textAlignVertical="top"
+      />
+      <TouchableOpacity onPress={handleCreateList}>
+        <Text>Create List</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
-
-    useEffect(() => {
-      fetchToken()
-        .then((res) => {
-          console.log(res.data.decode);
-          const { user_id, username } = res.data.decode;
-          setUser_id(user_id);
-          setUsername(username);
-        })
-        .catch((err) => console.error("Error fetching token:", err));
-    }, []);
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.notesTitle}>What would you like to call your list?</Text>
-        <TextInput
-            style={styles.textInput}
-            placeholder= "Name your list"
-            value={listTitle}
-            onChangeText={setListTitle}
-            multiline
-            textAlignVertical= "top"
-          />
-          <TouchableOpacity onPress = {handleCreateList}>
-            <Text>Create List</Text>
-          </TouchableOpacity>
-      </View>
-    );
-}
 
 const styles = StyleSheet.create({
   container: {

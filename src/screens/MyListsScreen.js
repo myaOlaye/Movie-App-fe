@@ -9,8 +9,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { fetchToken, getUserMovieLists } from "../api";
+import { useIsFocused } from "@react-navigation/native";
 
 export const MyListsScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
   const [username, setUsername] = useState(null);
   const [owner_id, setOwner_id] = useState(null);
   const [movieLists, setMovieLists] = useState([]);
@@ -25,12 +27,14 @@ export const MyListsScreen = ({ navigation }) => {
   }, [owner_id, username]);
 
   useEffect(() => {
-    if (owner_id) {
-      getUserMovieLists(owner_id, excluded_movielist_ids).then(
-        ({ movieLists }) => {
-          setMovieLists(movieLists);
-        }
-      );
+    if (isFocused) {
+      if (owner_id) {
+        getUserMovieLists(owner_id, excluded_movielist_ids).then(
+          ({ movieLists }) => {
+            setMovieLists(movieLists);
+          }
+        );
+      }
     }
   }, [owner_id]);
 
@@ -63,11 +67,15 @@ export const MyListsScreen = ({ navigation }) => {
           >
             <View style={styles.cardContent}>
               <Text style={styles.cardText}>{movieLists.name}</Text>
-              
             </View>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.card} onPress={() =>{navigation.navigate("CreateList")}}>
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => {
+            navigation.navigate("CreateList");
+          }}
+        >
           <View style={styles.cardContent}>
             <Ionicons name="add" size={24} color="#888" />
             <Text style={styles.cardText}>Create a new list</Text>
