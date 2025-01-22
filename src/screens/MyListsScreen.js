@@ -200,8 +200,10 @@ export const MyListsScreen = ({ navigation }) => {
               <Text style={styles.cardText}>Create a new list</Text>
             </View>
           </TouchableOpacity>
+
         </View>
       </ScrollView>
+
     </SafeAreaView>
   );
 };

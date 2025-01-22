@@ -33,7 +33,7 @@ const MovieListScreen = () => {
         <Text style={styles.emptyText}>This list is empty</Text>
       ) : (
         <View style={styles.listContainer}>
-          {/* Share Button */}
+        
           <TouchableOpacity
             style={[styles.actionButton, styles.shareButton]}
             onPress={() => navigation.navigate("Share", { movielist_id })}
