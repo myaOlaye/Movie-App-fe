@@ -17,7 +17,6 @@ const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 function MovieInfo() {
   const route = useRoute();
   const { id, showAddButton = true, movielist_id } = route.params;
-  console.log("id", id);
   const navigation = useNavigation();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,8 +77,9 @@ function MovieInfo() {
                 Add to watch Lists
               </Text>
             </TouchableOpacity>
-          ):
-          (<CommentCard movielist_id={movielist_id} tmdb_movie_id={id} />)}
+          ) : (
+            <CommentCard movielist_id={movielist_id} tmdb_movie_id={id} />
+          )}
         </ScrollView>
       )}
     </SafeAreaView>

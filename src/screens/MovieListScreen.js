@@ -41,7 +41,7 @@ const MovieListScreen = () => {
         <View style={styles.listContainer}>
           <TouchableOpacity
             style={[styles.actionButton, styles.shareButton]}
-            onPress={() => navigation.navigate("Share")}
+            onPress={() => navigation.navigate("Share", { movielist_id })}
           >
             <Text style={styles.shareButtonText}>Share</Text>
           </TouchableOpacity>

@@ -113,7 +113,7 @@ export const getUserMovieLists = (owner_id, excluded_movielist_ids) => {
   }
 
   return OurFlicksBE.get(`/movielists/${owner_id}`, {
-    params,
+    params: params,
   }).then(({ data }) => {
     return data;
   });
@@ -137,6 +137,34 @@ export const getUsers = () => {
   return OurFlicksBE.get("/users").then(({ data }) => {
     return data.users;
   });
+};
+
+export const ShareMovie = (reqBody) => {
+  return OurFlicksBE.post("/movieListShares", reqBody).then(({ data }) => {
+    return data;
+  });
+};
+
+export const getMovieListShares = (username) => {
+  return OurFlicksBE.get(`/movieListShares/${username}`).then(({ data }) => {
+    return data;
+  });
+};
+
+export const getMovieListsByMovieListId = (movielist_id) => {
+  return OurFlicksBE.get(`/movieLists/movielistid/${movielist_id}`).then(
+    ({ data }) => {
+      return data;
+    }
+  );
+};
+
+export const respondToShareRequest = (share_id, response) => {
+  return OurFlicksBE.patch(`/movieListShares/${share_id}`, { response }).then(
+    ({ data }) => {
+      return data;
+    }
+  );
 };
 
 export const postNewList = (owner_id, listTitle) => {
