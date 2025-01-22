@@ -7,7 +7,7 @@ const api = axios.create({
 
 const OurFlicksBE = axios.create({
 
-  baseURL: "http://192.168.1.40:3000/api",
+  baseURL: "http://192.168.0.30:3000/api",
 
 });
 
@@ -90,6 +90,15 @@ export const fetchToken = async () => {
   });
 };
 
+// registerUser function
+export const registerUser = (name, username , email, password) => {
+  return OurFlicksBE.post("/users/register", {
+  name,
+  username,
+  email,
+  password
+  });
+};
 export const loginUser = (email, password) => {
   return OurFlicksBE.post("/users/login", {
     email,
