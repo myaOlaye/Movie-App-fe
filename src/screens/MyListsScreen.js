@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -16,6 +17,7 @@ import {
   respondToShareRequest,
 } from "../api";
 import { useIsFocused } from "@react-navigation/native";
+import { getUser } from "../api";
 
 export const MyListsScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
@@ -60,24 +62,29 @@ export const MyListsScreen = ({ navigation }) => {
             }
           });
 
-          const fetchMovieLists = (shares) =>
+          const fetchMovieListsWithImages = (shares) =>
             Promise.all(
               shares.map((share) =>
                 getMovieListsByMovieListId(share.movielist_id).then(
-                  ({ movieList }) => ({
-                    ...movieList[0],
-                    share_id: share.share_id,
-                    owner_username: share.owner_username,
-                    receiver_username: share.receiver_username,
-                  })
+                  ({ movieList }) => {
+                    const userToFetch = share.owner_username;
+
+                    return getUser(userToFetch).then(({ user }) => ({
+                      ...movieList[0],
+                      share_id: share.share_id,
+                      owner_username: share.owner_username,
+                      receiver_username: share.receiver_username,
+                      userImage: user.profile_img,
+                    }));
+                  }
                 )
               )
             );
 
           return Promise.all([
-            fetchMovieLists(accepted),
-            fetchMovieLists(sentPending),
-            fetchMovieLists(receivedPending),
+            fetchMovieListsWithImages(accepted),
+            fetchMovieListsWithImages(sentPending),
+            fetchMovieListsWithImages(receivedPending),
           ]);
         })
         .then(([accepted, sentPending, receivedPending]) => {
@@ -130,6 +137,12 @@ export const MyListsScreen = ({ navigation }) => {
                 })
               }
             >
+              <Image
+                source={{
+                  uri: userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              ></Image>
               <Text style={styles.cardText}>{list.name}</Text>
             </TouchableOpacity>
           ))}
@@ -146,6 +159,13 @@ export const MyListsScreen = ({ navigation }) => {
                 })
               }
             >
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              />
               <Text style={styles.cardText}>{list.name}</Text>
             </TouchableOpacity>
           ))}
@@ -153,6 +173,13 @@ export const MyListsScreen = ({ navigation }) => {
           <Text style={styles.subtitle}>Sent Lists Pending Acceptance</Text>
           {sentPendingMovieLists.map((list) => (
             <View key={list.movielist_id} style={styles.card}>
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              />
               <Text style={styles.cardText}>{list.name}</Text>
               <Text>Pending acceptance by {list.receiver_username}</Text>
             </View>
@@ -161,6 +188,13 @@ export const MyListsScreen = ({ navigation }) => {
           <Text style={styles.subtitle}>Received Join List Requests</Text>
           {recievedPendingMovieLists.map((list) => (
             <View key={list.movielist_id} style={styles.card}>
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              />
               <Text style={styles.cardText}>{list.name}</Text>
               <TouchableOpacity
                 style={styles.buttonAccept}
@@ -177,9 +211,16 @@ export const MyListsScreen = ({ navigation }) => {
             </View>
           ))}
 
-          <TouchableOpacity style={styles.card}>
-            <Ionicons name="add" size={24} color="#888" />
-            <Text style={styles.cardText}>Create a new list</Text>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => {
+              navigation.navigate("CreateList");
+            }}
+          >
+            <View style={styles.cardContent}>
+              <Ionicons name="add" size={24} color="#888" />
+              <Text style={styles.cardText}>Create a new list</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -188,28 +229,101 @@ export const MyListsScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollContent: { padding: 16 },
-  container: { flex: 1, backgroundColor: "#fff" },
+  container: {
+    flex: 1,
+    backgroundColor: "#f8f9fa", // Light background color for a clean look
+  },
+  scrollContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 32, // Extra space for scrolling
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    backgroundColor: "#ffffff",
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: "#e6e6e6",
   },
-  backButton: { marginRight: 16 },
-  title: { fontSize: 22, fontWeight: "bold", color: "#333" },
-  content: { padding: 16 },
-  subtitle: { fontSize: 20, fontWeight: "600", marginBottom: 16 },
+  backButton: {
+    marginRight: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#2c3e50",
+  },
+  content: {
+    paddingVertical: 16,
+  },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#34495e",
+    marginBottom: 12,
+  },
   card: {
-    backgroundColor: "#FFF",
+    backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
     elevation: 4,
+    flexDirection: "row",
+    alignItems: "center",
   },
-  cardText: { fontSize: 16, fontWeight: "500", color: "#333" },
-  buttonAccept: { backgroundColor: "#4CAF50", padding: 8, borderRadius: 8 },
-  buttonDecline: { backgroundColor: "#F44336", padding: 8, borderRadius: 8 },
-  buttonText: { color: "#fff", fontWeight: "600" },
+  cardText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#2c3e50",
+    flex: 1,
+    marginLeft: 12,
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "#e6e6e6",
+  },
+  buttonAccept: {
+    backgroundColor: "#4caf50",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    marginTop: 8,
+    marginRight: 8,
+  },
+  buttonDecline: {
+    backgroundColor: "#e74c3c",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    marginTop: 8,
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#ffffff",
+  },
+  addButton: {
+    backgroundColor: "#f1f1f1",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  addButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#888888",
+    marginLeft: 12,
+  },
 });
