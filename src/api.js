@@ -8,7 +8,7 @@ const api = axios.create({
 const OurFlicksBE = axios.create({
 
 
-  baseURL: "http://192.168.1.65:3000/api",
+  baseURL: "http://192.168.1.245:3000/api",
 
 });
 
@@ -141,5 +141,15 @@ export const getUsers = () => {
     return data.users;
   });
 };
+
+export const postNewList = (owner_id, listTitle) => {
+  return OurFlicksBE.post("/movielists", {
+    owner_id,
+    name: listTitle,
+  })
+  .then (({data}) => {
+    return data;
+  });
+}
 
 
