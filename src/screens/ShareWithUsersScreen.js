@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#1A1A2E",
   },
   centered: {
     flex: 1,
@@ -158,11 +158,12 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    color: "#ffffff",
   },
   noUsers: {
     textAlign: "center",
     fontSize: 16,
-    color: "#888",
+    color: "#ffffff",
     marginTop: 20,
   },
   modalOverlay: {
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#4B0082",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cancelButton: {
-    backgroundColor: "#FF6347",
+    backgroundColor: "#B8B8B8",
   },
   textStyle: {
     color: "white",

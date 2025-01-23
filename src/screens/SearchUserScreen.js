@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
 export const SearchUser = ({ setFilteredUsers, users }) => {
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = () => {
     if (users) {
-      const filtered = users.filter(user =>
+      const filtered = users.filter((user) =>
         user.username.toLowerCase().includes(searchInput.toLowerCase())
       );
       setFilteredUsers(filtered);
@@ -22,29 +22,27 @@ export const SearchUser = ({ setFilteredUsers, users }) => {
         value={searchInput}
         onChangeText={(text) => setSearchInput(text)}
       />
-      <Button
-        title="Search"
-        onPress={handleSearch}
-      />
+      <Button title="Search" onPress={handleSearch} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#1A1A2E",
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     fontSize: 20,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 8,
-    width: '80%',
+    width: "80%",
   },
 });
