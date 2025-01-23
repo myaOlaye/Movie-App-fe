@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,7 @@ import {
   SafeAreaView,
   TextInput,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import colours from "./theme/colours";  
 
 import { fetchToken } from "../api";
 import { postNewList } from "../api";
@@ -29,7 +28,6 @@ export const CreateNewList = ({ navigation }) => {
   useEffect(() => {
     fetchToken()
       .then((res) => {
-        console.log(res.data.decode);
         const { user_id, username } = res.data.decode;
         setUser_id(user_id);
         setUsername(username);
@@ -38,40 +36,74 @@ export const CreateNewList = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.notesTitle}>
-        What would you like to call your list?
-      </Text>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Name your list"
-        value={listTitle}
-        onChangeText={setListTitle}
-        multiline
-        textAlignVertical="top"
-      />
-      <TouchableOpacity onPress={handleCreateList}>
-        <Text>Create List</Text>
+    <SafeAreaView style={styles.container}>
+
+      <Text style={styles.title}>Create a New List</Text>
+
+   
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter list name"
+          placeholderTextColor={colours.mutedText} 
+          value={listTitle}
+          onChangeText={setListTitle}
+        />
+      </View>
+
+      {/* Button */}
+      <TouchableOpacity style={styles.actionButton} onPress={handleCreateList}>
+        <Text style={styles.actionButtonText}>Create List</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
+    flex: 1,
+    backgroundColor: colours.background, 
+    padding: 20,
   },
-  notesTitle: {
-    fontSize: 28,
+  title: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 15,
-    paddingHorizontal: 20,
+    color: colours.text, 
+    textAlign: "center",
+    marginBottom: 24,
+    marginTop: 16,
   },
-  comment: {
+  inputContainer: {
+    marginBottom: 20,
+    borderRadius: 8,
+    backgroundColor: colours.midnightPurple, 
+    paddingHorizontal: 12, 
+    paddingVertical: 8, 
+    width: "80%", 
+    alignSelf: "center", 
+  },
+  input: {
+    height: 36, 
+    fontSize: 16, 
+    color: colours.text, 
+    
+    paddingLeft: 8, 
+  },
+  actionButton: {
+    backgroundColor: colours.midnightPurple, 
+    borderRadius: 5,
+    alignItems: "center",
+    padding: 12,
+    borderColor: colours.text, 
+    borderWidth: 1,
+    alignSelf: "center",
+    width: "60%", 
+  },
+  actionButtonText: {
+    color: colours.text, 
+    fontWeight: "bold",
     fontSize: 16,
-    marginBottom: 5,
   },
 });
+
+export default CreateNewList;
