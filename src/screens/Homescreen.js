@@ -3,10 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import colors from './theme/colours'
-
-export default function HomeScreen({ navigation }) {
+import { useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export default function HomeScreen() {
   const translateY = useSharedValue(0);
-
+  const navigation = useNavigation();
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: translateY.value }],
@@ -18,7 +20,23 @@ export default function HomeScreen({ navigation }) {
       navigation.replace('Login');
     }
   };
+  useEffect(() => {
+    const fetchTokenFromStorage = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        
+        if (!token) {
+          navigation.navigate("Home");
+        } else {
+          navigation.navigate("Main", { screen: "MovieSearch"});
+        }
+      } catch (error) {
+        console.error("Failed to fetch token from storage", error);
+      }
+    };
 
+    fetchTokenFromStorage();
+  }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PanGestureHandler onGestureEvent={onGestureEvent}>

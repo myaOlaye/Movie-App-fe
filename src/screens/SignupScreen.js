@@ -52,7 +52,7 @@ export default function SignupScreen({ navigation }) {
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
-        placeholder="name"
+        placeholder="Name"
         placeholderTextColor={colours.mutedText}
         value={name}
         onChangeText={setName}

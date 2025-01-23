@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, use } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import { getMovies, searchMovies } from "../api";
 import { MovieFilter } from "../components/MovieFilter";
 import { MoviesSearch } from "../components/MovieSearch";
 import { MoviesCard } from "../components/MoviesCard";
+import { fetchToken } from "../api";
 
 export const MoviesScreen = ({ navigation }) => {
   const [movies, setMovies] = useState([]);
@@ -53,7 +54,9 @@ export const MoviesScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MoviesSearch setQuery={setQuery} />
-      <Button title="Filter" onPress={openFilterModal} />
+      <TouchableOpacity style={styles.filterButton} onPress={openFilterModal}>
+        <Text style = {styles.filterButtonText}>Filter</Text>
+      </TouchableOpacity>
 
       {loading && <Text>Loading...</Text>}
 
@@ -94,7 +97,7 @@ export const MoviesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 50 },
+  container: { flex: 1, padding: 50, backgroundColor: '#1A1A2E' },
   input: {
     height: 40,
     borderColor: "gray",
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#2E0854",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#FF004F",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -150,8 +153,24 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
+    color: "white",
     fontSize: 18,
     marginBottom: 15,
     textAlign: "center",
+  },
+  filterButton: {
+    backgroundColor: '#2e0854',
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 10,
+    padding: 10,
+    width: '50%',
+    alignSelf: 'center',
+    borderColor: 'white',
+    borderWidth: 1,
+  },
+  filterButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

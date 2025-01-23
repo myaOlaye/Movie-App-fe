@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 10,
-    color: '#333',
+    color: 'white',
   },
   input: {
     height: 40,
@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: 'gray',
   },
 });
