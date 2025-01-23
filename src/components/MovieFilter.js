@@ -61,7 +61,11 @@ export const MovieFilter = ({
         <Picker.Item label="Rating (Descending)" value="rating.desc" />
         <Picker.Item label="Rating (Ascending)" value="rating.asc" />
       </Picker>
-      <Button title="Update" onPress={closeFilterModal} />
+      <Button
+        title="Update"
+        onPress={closeFilterModal}
+        color='#FF004F'
+      />
       <View style={styles.genreContainer}>
         {genres.map((genre) => (
           <TouchableOpacity
@@ -87,6 +91,9 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 50,
     marginVertical: 10,
+    backgroundColor: "#1A1A2E",
+    color: "white",
+    fontWeight: "bold",
   },
   genreContainer: {
     flexDirection: "row",
@@ -94,10 +101,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   genreButton: {
-    backgroundColor: "#ccc",
+    backgroundColor: "#1A1A2E",
     padding: 10,
     margin: 5,
     borderRadius: 5,
+    borderColor: "white", // Added border color
+    borderWidth: 1, // Added border width
   },
   selectedGenreButton: {
     backgroundColor: "#2196F3",
@@ -105,4 +114,5 @@ const styles = StyleSheet.create({
   genreName: {
     color: "white",
   },
+  
 });
