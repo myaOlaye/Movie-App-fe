@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 const OurFlicksBE = axios.create({
-  baseURL: "http://192.168.1.40:3000/api",
+  baseURL: "http://192.168.1.65:3000/api",
 });
 
 const API_KEY = "aba290e69fb8923d05342f835b24c1fd";
