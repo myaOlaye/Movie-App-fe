@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
+import colours from "./theme/colours"; 
 
 import { addMovieToList } from "../api";
 
@@ -49,22 +50,22 @@ const AddNoteScreen = () => {
             multiline
             textAlignVertical="top"
             numberOfLines={6}
+            placeholderTextColor={colours.mutedText} 
           />
         </View>
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText} onPress={handleComment}>
-            Add to '{listName}'
-          </Text>
+        <TouchableOpacity style={styles.button} onPress={handleComment}>
+          <Text style={styles.buttonText}>Add to '{listName}'</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colours.background, 
   },
   content: {
     flex: 1,
@@ -75,10 +76,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
     marginBottom: 30,
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 16,
   },
   movieTitle: {
     fontSize: 20,
@@ -91,30 +88,35 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 16,
+    color: colours.text, 
   },
   description: {
     fontSize: 16,
-    color: "#666",
+    color: colours.mutedText, 
     marginBottom: 24,
     lineHeight: 24,
     textAlign: "center",
   },
   textInput: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: colours.midnightPurple, 
     borderRadius: 16,
     padding: 16,
     height: 150,
     fontSize: 16,
+    color: colours.text,
+    fontWeight: "bold", 
   },
   button: {
-    backgroundColor: "#1A1A1A",
+    backgroundColor: colours.midnightPurple, 
     borderRadius: 8,
     padding: 16,
     alignItems: "center",
     marginBottom: 32,
+    borderColor: colours.text, 
+    borderWidth: 1, 
   },
   buttonText: {
-    color: "#fff",
+    color: colours.text, 
     fontSize: 16,
     fontWeight: "500",
   },

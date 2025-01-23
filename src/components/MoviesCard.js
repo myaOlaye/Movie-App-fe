@@ -12,7 +12,7 @@ import {
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 export const MoviesCard = ({ navigation, movies }) => {
-  console.log(movies);
+ 
 
   return (
     <View style={styles.container}>
