@@ -12,7 +12,6 @@ import {
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 export const MoviesCard = ({ navigation, movies }) => {
- 
 
   return (
     <View style={styles.container}>
@@ -26,7 +25,7 @@ export const MoviesCard = ({ navigation, movies }) => {
                 <Image
                   source={{ uri: `${IMAGE_BASE_URL}${item.poster_path}` }}
                   style={styles.imagePlaceholder}
-                  resizeMode ='cover'
+                  resizeMode="cover"
                 />
               </View>
             ) : (

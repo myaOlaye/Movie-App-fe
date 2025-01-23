@@ -27,7 +27,6 @@ export default function ProfileScreen() {
   useEffect(() => {
     fetchToken().then((token) => {
       setUser(token.data.decode);
-      console.log(token);
     });
   }, []);
   return (
@@ -93,9 +92,9 @@ const styles = StyleSheet.create({
     marginTop: -50,
   },
   profileImage: {
-    width: 140, // Further increased width
-    height: 140, // Further increased height
-    borderRadius: 70, // Adjusted borderRadius to match new size
+    width: 140, 
+    height: 140,
+    borderRadius: 70, 
     borderWidth: 3,
     borderColor: "#FFFFFF",
   },

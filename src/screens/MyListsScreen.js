@@ -128,16 +128,8 @@ export const MyListsScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Ionicons name="chevron-back" size={24} color="black" />
-          </TouchableOpacity>
-          <Text style={styles.title}>My Lists</Text>
-        </View>
-
+        <View style={styles.header}></View>
+        <Text style={styles.title}>Your Movie Lists</Text>
         <View style={styles.content}>
           {recievedPendingMovieLists.map((list) => (
             <View key={list.movielist_id} style={styles.pendingCard}>
@@ -148,8 +140,11 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
+              <Text style={styles.cardText}>{list.name}</Text>
               <View style={styles.pendingTextContainer}>
-                <Text style={styles.cardText}>{list.name}</Text>
+                <Text style={styles.pendingText}>
+                  {list.owner_username} has invited you to join this list
+                </Text>
                 <View style={styles.responseButtons}>
                   <TouchableOpacity
                     style={styles.buttonAccept}
@@ -185,8 +180,8 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               ></Image>
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🔒 {list.name}</Text>
+              <Text style={styles.cardText}> {list.name}</Text>
+              <Text style={styles.emoji}>🔒</Text>
             </TouchableOpacity>
           ))}
 
@@ -208,37 +203,36 @@ export const MyListsScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🤝 {list.name}</Text>
+              <Text style={styles.cardText}> {list.name}</Text>
+              <Text style={styles.emoji}>🫂</Text>
             </TouchableOpacity>
           ))}
 
           {sentPendingMovieLists.map((list) => (
-            <View key={list.movielist_id} style={styles.pendingCard}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("MovieList", {
-                    movielist_id: list.movielist_id,
-                    name: list.name,
-                  })
-                }
-              >
-                <Image
-                  source={{
-                    uri:
-                      list.userImage ||
-                      "https://example.com/default-profile.png",
-                  }}
-                  style={styles.profileImage}
-                />
-                <View style={styles.pendingTextContainer}>
-                  <Text style={styles.cardText}>{list.name}</Text>
-                  <Text style={styles.pendingText}>
-                    Pending acceptance by {list.receiver_username}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              key={list.movielist_id}
+              style={styles.card}
+              onPress={() =>
+                navigation.navigate("MovieList", {
+                  movielist_id: list.movielist_id,
+                  name: list.name,
+                })
+              }
+            >
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
+                }}
+                style={styles.profileImage}
+              />
+              <Text style={styles.cardText}>{list.name}</Text>
+              <View style={styles.pendingTextContainer}>
+                <Text style={styles.pendingText}>
+                  Pending acceptance by {list.receiver_username}
+                </Text>
+              </View>
+            </TouchableOpacity>
           ))}
 
           <TouchableOpacity
@@ -259,31 +253,26 @@ export const MyListsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#1A1A2E",
+    margin: 0,
+    padding: 0,
   },
   scrollContent: {
-    paddingHorizontal: 16,
     paddingBottom: 32,
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    backgroundColor: "#ffffff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#e6e6e6",
-  },
+
   backButton: {
     marginRight: 16,
   },
   title: {
+    textAlign: "center",
+    marginTop: 20,
     fontSize: 24,
     fontWeight: "700",
-    color: "#2c3e50",
+    color: "#FFFFFF",
   },
   content: {
-    paddingVertical: 16,
+    paddingVertical: 20,
   },
   subtitle: {
     fontSize: 20,
@@ -295,7 +284,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -303,13 +294,22 @@ const styles = StyleSheet.create({
     elevation: 4,
     flexDirection: "row",
     alignItems: "center",
+    position: "relative", // Added to enable absolute positioning of the lock
   },
-  cardText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#2c3e50",
-    flex: 1,
-    marginLeft: 12,
+  pendingCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    flexDirection: "column", // Ensures text stays below the movie name
+    alignItems: "center",
   },
   profileImage: {
     width: 50,
@@ -324,52 +324,63 @@ const styles = StyleSheet.create({
     color: "#888",
     marginLeft: 8,
   },
-  pendingCard: {
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    flexDirection: "row",
-    alignItems: "center",
+  emoji: {
+    position: "absolute", // Added for positioning
+    top: 15, // Fine-tuned to position the lock inside the card
+    right: 20, // Fine-tuned to position the lock inside the card
+    fontSize: 20, // Adjusted for visibility
+    color: "#888", // Matches the card design aesthetic
+  },
+
+  cardText: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#2c3e50",
+    marginLeft: 12, // Adds spacing between image and text
   },
   pendingTextContainer: {
-    flex: 1,
-    marginLeft: 12,
+    marginTop: 12, // Adds space between the title and the pending text
+    marginLeft: 12, // Ensures consistent margin on the left
+  },
+  pendingText: {
+    fontSize: 12,
+    fontWeight: "400",
+    color: "#666666",
+    marginBottom: 8, // Spacing between text and buttons
+  },
+  responseButtons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 8,
   },
   buttonAccept: {
-    backgroundColor: "#4caf50",
+    backgroundColor: "#4B0082",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
-    alignSelf: "flex-start",
-    marginTop: 8,
-    marginRight: 8,
+    marginRight: 8, // Spacing between buttons
   },
   buttonDecline: {
-    backgroundColor: "#e74c3c",
+    backgroundColor: "#B8B8B8",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
-    alignSelf: "flex-start",
-    marginTop: 8,
+    marginRight: 8,
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "600",
     color: "#ffffff",
   },
   addButton: {
     backgroundColor: "#f1f1f1",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
   },
   addButtonText: {
     fontSize: 16,
@@ -378,103 +389,3 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#f8f9fa", // Light background color for a clean look
-//   },
-//   scrollContent: {
-//     paddingHorizontal: 16,
-//     paddingBottom: 32, // Extra space for scrolling
-//   },
-//   header: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     paddingVertical: 16,
-//     paddingHorizontal: 16,
-//     backgroundColor: "#ffffff",
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#e6e6e6",
-//   },
-//   backButton: {
-//     marginRight: 16,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "700",
-//     color: "#2c3e50",
-//   },
-//   content: {
-//     paddingVertical: 16,
-//   },
-//   subtitle: {
-//     fontSize: 20,
-//     fontWeight: "600",
-//     color: "#34495e",
-//     marginBottom: 12,
-//   },
-//   card: {
-//     backgroundColor: "#ffffff",
-//     borderRadius: 12,
-//     padding: 16,
-//     marginBottom: 16,
-//     shadowColor: "#000",
-//     shadowOffset: { width: 0, height: 4 },
-//     shadowOpacity: 0.1,
-//     shadowRadius: 8,
-//     elevation: 4,
-//     flexDirection: "row",
-//     alignItems: "center",
-//   },
-//   cardText: {
-//     fontSize: 16,
-//     fontWeight: "500",
-//     color: "#2c3e50",
-//     flex: 1,
-//     marginLeft: 12,
-//   },
-//   profileImage: {
-//     width: 50,
-//     height: 50,
-//     borderRadius: 25,
-//     borderWidth: 2,
-//     borderColor: "#e6e6e6",
-//   },
-//   buttonAccept: {
-//     backgroundColor: "#4caf50",
-//     paddingHorizontal: 16,
-//     paddingVertical: 8,
-//     borderRadius: 8,
-//     alignSelf: "flex-start",
-//     marginTop: 8,
-//     marginRight: 8,
-//   },
-//   buttonDecline: {
-//     backgroundColor: "#e74c3c",
-//     paddingHorizontal: 16,
-//     paddingVertical: 8,
-//     borderRadius: 8,
-//     alignSelf: "flex-start",
-//     marginTop: 8,
-//   },
-//   buttonText: {
-//     fontSize: 14,
-//     fontWeight: "600",
-//     color: "#ffffff",
-//   },
-//   addButton: {
-//     backgroundColor: "#f1f1f1",
-//     borderRadius: 12,
-//     padding: 16,
-//     marginBottom: 16,
-//     flexDirection: "row",
-//     alignItems: "center",
-//   },
-//   addButtonText: {
-//     fontSize: 16,
-//     fontWeight: "500",
-//     color: "#888888",
-//     marginLeft: 12,
-//   },
-// });
