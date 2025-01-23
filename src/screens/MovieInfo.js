@@ -52,12 +52,15 @@ function MovieInfo() {
             movie.release_date.split("-")[0]
           })`}</Text>
           <View style={styles.tagsRow}>
-            <View style={styles.tag}>
-              <Text style={styles.tagText}>Teen</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={styles.tagText}>Romance</Text>
-            </View>
+            {movie.genres.map((genre) => {
+              return (
+                <View style={styles.tagsRow}>
+                  <View style={styles.tag}>
+                    <Text style={styles.tagText}>{genre.name}</Text>
+                  </View>
+                </View>
+              );
+            })}
           </View>
           <View style={styles.descriptionContainer}>
             <Text style={styles.description}>{movie.overview}</Text>
