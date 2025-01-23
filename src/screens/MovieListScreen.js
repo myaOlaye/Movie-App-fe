@@ -39,8 +39,9 @@ const MovieListScreen = () => {
         <Text style={styles.emptyText}>This list is empty</Text>
       ) : (
         <View style={styles.listContainer}>
+          {/* Share Button */}
           <TouchableOpacity
-            style={[styles.actionButton, styles.shareButton]}
+            style={styles.shareButton}
             onPress={() => navigation.navigate("Share", { movielist_id })}
           >
             <Text style={styles.shareButtonText}>Share</Text>
@@ -61,10 +62,10 @@ const MovieListScreen = () => {
 
       {/* Add Movies Button */}
       <TouchableOpacity
-        style={[styles.actionButton, styles.addButton]}
+        style={styles.circularAddButton}
         onPress={() => navigation.navigate("MovieSearch")}
       >
-        <Text style={styles.addButtonText}>Add Movies to List</Text>
+        <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -85,8 +86,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    gap: 12,
-    paddingVertical: 8,
+    gap: 6,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
   },
   emptyText: {
     color: colours.mutedText,
@@ -104,15 +106,20 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginVertical: 8,
-    shadowColor: colours.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    height: 60, // Increased height for button appearance
+    justifyContent: "center",
   },
   shareButton: {
-    backgroundColor: colours.accent,
+    backgroundColor: colours.indigo,
+    shadowColor: colours.accent,
     marginBottom: 16,
+    height: 60, // Increased height for button appearance
+    justifyContent: "center",
+    borderRadius: 8, // Rounded corners for Share button
   },
   shareButtonText: {
     color: colours.text,
@@ -120,12 +127,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  addButton: {
+  circularAddButton: {
     backgroundColor: colours.indigo,
+    shadowColor: colours.accent,
+    width: 60,
+    height: 60,
+    borderRadius: 30, // Makes the button circular
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 16,
+    left: "50%",
+    transform: [{ translateX: -30 }], // Proper centering
+    elevation: 5,
   },
   addButtonText: {
     color: colours.text,
-    fontSize: 16,
+    fontSize: 36, // Larger font size for the + symbol
     fontWeight: "bold",
     textAlign: "center",
   },
