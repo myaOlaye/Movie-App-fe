@@ -12,6 +12,7 @@ import {
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 export const MoviesCard = ({ navigation, movies }) => {
+
   return (
     <View style={styles.container}>
       <FlatList
