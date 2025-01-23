@@ -24,7 +24,7 @@ export const MoviesCard = ({ navigation, movies }) => {
                 <Image
                   source={{ uri: `${IMAGE_BASE_URL}${item.poster_path}` }}
                   style={styles.imagePlaceholder}
-                  resizeMode ='cover'
+                  resizeMode="cover"
                 />
               </View>
             ) : (

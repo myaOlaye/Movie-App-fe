@@ -27,7 +27,6 @@ export default function ProfileScreen() {
   useEffect(() => {
     fetchToken().then((token) => {
       setUser(token.data.decode);
-      console.log(token);
     });
   }, []);
   return (

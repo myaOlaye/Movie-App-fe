@@ -148,12 +148,10 @@ const AddToListScreen = ({ navigation }) => {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           ></TouchableOpacity>
-          <Text style={styles.title}>
-            {" "}
-            Which list would you like to add {movieName} to?{" "}
-          </Text>
         </View>
-
+        <Text style={styles.title}>
+          Which list would you like to add {movieName} to?
+        </Text>
         <View style={styles.content}>
           {privateMovieLists.map((list) => (
             <TouchableOpacity
@@ -177,8 +175,8 @@ const AddToListScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               ></Image>
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🔒 {list.name}</Text>
+              <Text style={styles.cardText}> {list.name}</Text>
+              <Text style={styles.emoji}>🔒</Text>
             </TouchableOpacity>
           ))}
 
@@ -205,42 +203,41 @@ const AddToListScreen = ({ navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-              <Text style={styles.creatorText}>Creator</Text>
-              <Text style={styles.cardText}>🤝 {list.name}</Text>
+              <Text style={styles.cardText}> {list.name}</Text>
+              <Text style={styles.emoji}>🫂</Text>
             </TouchableOpacity>
           ))}
 
           {sentPendingMovieLists.map((list) => (
-            <View key={list.movielist_id} style={styles.pendingCard}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("MovieSearch", {
-                    screen: "AddNoteScreen",
-                    params: {
-                      movielist_id: list.movielist_id,
-                      listName: list.name,
-                      tmdb_movie_id: tmdb_movie_id,
-                      movieName: movieName,
-                    },
-                  });
+            <TouchableOpacity
+              key={list.movielist_id}
+              style={styles.pendingCard}
+              onPress={() => {
+                navigation.navigate("MovieSearch", {
+                  screen: "AddNoteScreen",
+                  params: {
+                    movielist_id: list.movielist_id,
+                    listName: list.name,
+                    tmdb_movie_id: tmdb_movie_id,
+                    movieName: movieName,
+                  },
+                });
+              }}
+            >
+              <Image
+                source={{
+                  uri:
+                    list.userImage || "https://example.com/default-profile.png",
                 }}
-              >
-                <Image
-                  source={{
-                    uri:
-                      list.userImage ||
-                      "https://example.com/default-profile.png",
-                  }}
-                  style={styles.profileImage}
-                />
-                <View style={styles.pendingTextContainer}>
-                  <Text style={styles.cardText}>{list.name}</Text>
-                  <Text style={styles.pendingText}>
-                    Pending acceptance by {list.receiver_username}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+                style={styles.profileImage}
+              />
+              <Text style={styles.cardText}>{list.name}</Text>
+              <View style={styles.pendingTextContainer}>
+                <Text style={styles.pendingText}>
+                  Pending acceptance by {list.receiver_username}
+                </Text>
+              </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -251,31 +248,35 @@ const AddToListScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#1A1A2E",
+    margin: 0,
+    padding: 0,
   },
   scrollContent: {
-    paddingHorizontal: 16,
     paddingBottom: 32,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
     borderBottomWidth: 1,
     borderBottomColor: "#e6e6e6",
+    width: "100%",
+    margin: 0,
   },
   backButton: {
     marginRight: 16,
   },
   title: {
+    textAlign: "center",
+    marginTop: 20,
     fontSize: 24,
     fontWeight: "700",
-    color: "#2c3e50",
+    color: "#FFFFFF",
   },
   content: {
-    paddingVertical: 16,
+    paddingVertical: 20,
   },
   subtitle: {
     fontSize: 20,
@@ -287,7 +288,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
@@ -295,13 +298,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     flexDirection: "row",
     alignItems: "center",
-  },
-  cardText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#2c3e50",
-    flex: 1,
-    marginLeft: 12,
+    position: "relative", // Added to enable absolute positioning of the lock
   },
   profileImage: {
     width: 50,
@@ -316,52 +313,76 @@ const styles = StyleSheet.create({
     color: "#888",
     marginLeft: 8,
   },
+  emoji: {
+    position: "absolute", // Added for positioning
+    top: 15, // Fine-tuned to position the lock inside the card
+    right: 20, // Fine-tuned to position the lock inside the card
+    fontSize: 20, // Adjusted for visibility
+    color: "#888", // Matches the card design aesthetic
+  },
   pendingCard: {
     backgroundColor: "#ffffff",
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 4,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start", // Aligns content to the top
+  },
+  cardText: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#2c3e50",
+    marginLeft: 12, // Adds spacing between image and text
+    flex: 1, // Ensures the text uses available space
   },
   pendingTextContainer: {
     flex: 1,
-    marginLeft: 12,
+    marginRight: 50,
+  },
+  pendingText: {
+    fontSize: 10,
+    fontWeight: "400",
+    color: "#666666",
+    marginBottom: 8, // Spacing between text and buttons
+  },
+  responseButtons: {
+    flexDirection: "row",
+    marginTop: 8,
   },
   buttonAccept: {
-    backgroundColor: "#4caf50",
+    backgroundColor: "#4B0082",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
-    alignSelf: "flex-start",
-    marginTop: 8,
-    marginRight: 8,
+    marginRight: 8, // Spacing between buttons
   },
   buttonDecline: {
-    backgroundColor: "#e74c3c",
+    backgroundColor: "#B8B8B8",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
-    alignSelf: "flex-start",
-    marginTop: 8,
   },
   buttonText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "600",
     color: "#ffffff",
   },
   addButton: {
     backgroundColor: "#f1f1f1",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 26,
+    marginLeft: 20,
+    marginRight: 20,
   },
   addButtonText: {
     fontSize: 16,
@@ -372,134 +393,3 @@ const styles = StyleSheet.create({
 });
 
 export default AddToListScreen;
-//   const navigation = useNavigation();
-//   const route = useRoute();
-//   const { movieName, tmdb_movie_id } = route.params;
-
-//   const [username, setUsername] = useState(null);
-//   const [owner_id, setOwner_id] = useState(null);
-//   const [movieLists, setMovieLists] = useState([]);
-//   const [excluded_movielist_ids, SetExcluded_movielist_ids] = useState([]);
-
-//   useEffect(() => {
-//     fetchToken().then((res) => {
-//       setOwner_id(res.data.decode.user_id);
-//       setUsername(res.data.decode.username);
-//     });
-//   }, [owner_id, username]);
-
-//   useEffect(() => {
-//     if (owner_id) {
-//       getUserMovieLists(owner_id, excluded_movielist_ids).then(
-//         ({ movieLists }) => {
-//           setMovieLists(movieLists);
-//         }
-//       );
-//     }
-//   }, [owner_id]);
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.content}>
-//         <Text style={styles.subtitle}>
-//           Which list would you like to add {movieName} to?{" "}
-//         </Text>
-
-//         {movieLists.map((movieLists) => (
-//           <TouchableOpacity
-//             key={movieLists.movielist_id}
-//             style={styles.card}
-//             onPress={() => {
-//               navigation.navigate("MovieSearch", {
-//                 screen: "AddNoteScreen",
-//                 params: {
-//                   movielist_id: movieLists.movielist_id,
-//                   listName: movieLists.name,
-//                   tmdb_movie_id: tmdb_movie_id,
-//                   movieName: movieName,
-//                 },
-//               });
-//             }}
-//           >
-//             <View style={styles.cardContent}>
-//               <Ionicons name="happy" size={24} color="#888" />
-//               <Text style={styles.cardText}>{movieLists.name}</Text>
-//             </View>
-//           </TouchableOpacity>
-//         ))}
-//         <TouchableOpacity style={styles.card} onPress={() =>{navigation.navigate("CreateList")}}>
-//           <View style={styles.cardContent}>
-//             <Ionicons name="add" size={24} color="#888" />
-//             <Text style={styles.cardText}>Create a new list</Text>
-//           </View>
-//         </TouchableOpacity>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//   },
-//   header: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     padding: 16,
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#eee",
-//   },
-//   backButton: {
-//     marginRight: 16,
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: "bold",
-//   },
-//   content: {
-//     flex: 1,
-//     padding: 16,
-//   },
-//   subtitle: {
-//     fontSize: 18,
-//     marginBottom: 24,
-//     textAlign: "center",
-//   },
-//   card: {
-//     backgroundColor: "#F5F5F5",
-//     borderRadius: 16,
-//     padding: 20,
-//     marginBottom: 16,
-//   },
-//   cardContent: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   cardText: {
-//     fontSize: 16,
-//     marginLeft: 12,
-//   },
-//   bottomNav: {
-//     flexDirection: "row",
-//     borderTopWidth: 1,
-//     borderTopColor: "#eee",
-//     paddingVertical: 8,
-//   },
-//   navItem: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   navText: {
-//     fontSize: 12,
-//     marginTop: 4,
-//     color: "#888",
-//   },
-//   activeNavText: {
-//     color: "#000",
-//   },
-// });
-
-// export default AddToListScreen;
