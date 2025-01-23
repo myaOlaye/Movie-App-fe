@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colours.text,
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: 16, 
   },
   listContainer: {
     flex: 1,
