@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert} from 'react-native';
-import colours from './theme/colours';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
+import colours from "./theme/colours";
 import { loginUser } from "../api";
 
 export default function LoginScreen({ navigation }) {
@@ -14,7 +21,7 @@ export default function LoginScreen({ navigation }) {
     }
     loginUser(email, password)
       .then(() => {
-        navigation.navigate("Main", { screen: "Movies" });
+        navigation.navigate("Main");
       })
       .catch((error) => {
         console.error(error);
@@ -32,7 +39,7 @@ export default function LoginScreen({ navigation }) {
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
-        autoCapitalize="none"  
+        autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
@@ -45,7 +52,7 @@ export default function LoginScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
         <Text style={styles.linkText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
     </View>
@@ -55,37 +62,37 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
     backgroundColor: colours.background,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 30,
     color: colours.text,
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 15,
     marginVertical: 10,
-    backgroundColor: colours.midnightPurple, 
+    backgroundColor: colours.midnightPurple,
     borderRadius: 8,
-    color: colours.text, 
+    color: colours.text,
   },
   button: {
-    backgroundColor: colours.indigo, 
+    backgroundColor: colours.indigo,
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 25,
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: 10,
   },
   buttonText: {
-    color: colours.text, 
+    color: colours.text,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   linkText: {
     color: colours.mutedText,

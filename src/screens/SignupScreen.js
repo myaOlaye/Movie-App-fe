@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import colours from "./theme/colours"; // Corrected import path
+import colours from "./theme/colours";
 import { registerUser } from "../api";
 export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState("");

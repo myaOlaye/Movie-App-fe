@@ -19,16 +19,15 @@ const MovieListItem = ({ movie, navigation, movielist_id }) => {
       <View style={styles.imagePlaceholder}>
         <Image
           source={IMAGE_BASE_URL + movieData.poster_path}
-          style={{ width: 50, height: 50, borderRadius: 25 }}
+          style={styles.imageContainer}
         />
       </View>
       <View style={styles.details}>
         <Text style={styles.title}>{movieData.title}</Text>
-        <Text style={styles.description}>{movie.notes}</Text>
-      </View>
-      <View style={styles.actions}>
+        <Text style={styles.description}>{movieData.overview}</Text>
+        <Text style={styles.description}>{movieData.notes}</Text>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.seeMoreButton}
           onPress={() =>
             navigation.navigate("MovieInfo", {
               id: movie.tmdb_movie_id,
@@ -37,12 +36,8 @@ const MovieListItem = ({ movie, navigation, movielist_id }) => {
             })
           }
         >
-          <Text style={styles.buttonText}>View</Text>
+          See More
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.trashIcon}>🗑️</Text>
-        </TouchableOpacity>
-    
       </View>
     </View>
   );
@@ -66,8 +61,7 @@ const styles = StyleSheet.create({
   },
   movieItem: {
     flexDirection: "row",
-    backgroundColor: "#fff",
-    borderRadius: 8,
+    borderRadius: 5,
     padding: 16,
     marginBottom: 16,
     shadowColor: "#000",
@@ -76,27 +70,31 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
+  imageContainer: {
+    width: 150,
+    height: 300,
+    marginBottom: 12,
+    borderRadius: 12,
+    overflow: "hidden",
+  },
   imagePlaceholder: {
-    width: 50,
-    height: 50,
-    backgroundColor: "#ddd",
-    borderRadius: 25,
-    marginRight: 16,
+    borderRadius: 12,
   },
   details: {
     flex: 1,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
+    color: "white",
+    margin: 10,
   },
   description: {
     fontSize: 14,
-    color: "#555",
+    color: "white",
+    margin: 10,
   },
-  actions: {
-    alignItems: "center",
+  seeMoreButton: {
+    backgroundColor: "white",
   },
   rating: {
     fontSize: 14,

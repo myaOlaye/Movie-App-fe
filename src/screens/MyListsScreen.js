@@ -35,6 +35,8 @@ export const MyListsScreen = ({ navigation }) => {
     fetchToken()
       .then((res) => {
         const { user_id, username, image } = res.data.decode;
+        console.log(username);
+
         setUser_id(user_id);
         setUsername(username);
         setUserImage(image);
@@ -100,7 +102,9 @@ export const MyListsScreen = ({ navigation }) => {
 
           return getUserMovieLists(user_id, excludedIDs);
         })
-        .then(({ movieLists }) => setPrivateMovieLists(movieLists))
+        .then(({ movieLists }) => {
+          return setPrivateMovieLists(movieLists);
+        })
         .catch((err) => console.error("Error fetching movie lists:", err));
     }
   }, [username, user_id, isFocused]);
@@ -253,7 +257,7 @@ export const MyListsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "#100C08",
     margin: 0,
     padding: 0,
   },
@@ -265,13 +269,14 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   title: {
+    color: "white",
+    fontSize: 25,
     textAlign: "center",
     marginTop: 20,
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#FFFFFF",
+    padding: 20,
   },
   content: {
+    margin: 10,
     paddingVertical: 20,
   },
   subtitle: {
@@ -281,9 +286,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   card: {
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: "#f1f1f1",
+    borderRadius: 5,
+    padding: 10,
     marginBottom: 26,
     marginLeft: 20,
     marginRight: 20,
@@ -297,7 +302,7 @@ const styles = StyleSheet.create({
     position: "relative", // Added to enable absolute positioning of the lock
   },
   pendingCard: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f1f1f1",
     borderRadius: 12,
     padding: 16,
     marginBottom: 26,
@@ -334,8 +339,7 @@ const styles = StyleSheet.create({
 
   cardText: {
     fontSize: 16,
-    fontWeight: "800",
-    color: "#2c3e50",
+    color: "black",
     marginLeft: 12, // Adds spacing between image and text
   },
   pendingTextContainer: {
@@ -376,14 +380,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f1f1",
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 5,
+    padding: 10,
     marginBottom: 26,
     marginLeft: 20,
     marginRight: 20,
   },
   addButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500",
     color: "#888888",
     marginLeft: 12,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { findMovieById, getMovieListItems } from "../api";
+import colours from "./theme/colours";
 import {
   View,
   Text,
@@ -77,7 +78,7 @@ function MovieInfo() {
                 }
                 style={styles.buttonText}
               >
-                Add to watch Lists
+                Add to watch list
               </Text>
             </TouchableOpacity>
           ) : (
@@ -92,7 +93,7 @@ function MovieInfo() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2E0854",
+    backgroundColor: colours.background,
   },
   header: {
     paddingHorizontal: 20,
@@ -114,10 +115,9 @@ const styles = StyleSheet.create({
     height: 550,
     marginHorizontal: 20,
     marginBottom: 20,
-    borderRadius: 20,
+    borderRadius: 8,
     overflow: "hidden",
     backgroundColor: "#F0F0F0",
-    borderColor: "#F0F0F0",
     borderWidth: 1,
   },
   poster: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   movieTitle: {
     color: "#fff",
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15,
     paddingHorizontal: 20,
@@ -135,48 +135,49 @@ const styles = StyleSheet.create({
   },
   tagsRow: {
     flexDirection: "row",
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    paddingHorizontal: 3,
+    marginTop: 5,
+    marginLeft: 10,
     flexWrap: "wrap",
   },
   tag: {
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "grey",
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     borderWidth: 1,
   },
   tagText: {
-    fontSize: 16,
+    fontSize: 12,
     color: "#fff",
   },
   descriptionContainer: {
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "grey",
+
     marginHorizontal: 20,
     marginVertical: 20,
     padding: 20,
-    borderRadius: 20,
+    borderRadius: 5,
     borderWidth: 1,
   },
   description: {
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: 24,
     color: "#fff",
     fontFamily: "Avenir",
   },
   button: {
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "#4E1764",
     marginHorizontal: 20,
     marginBottom: 30,
     padding: 16,
-    borderRadius: 10,
-    alignItems: "center",
-    borderColor: "#F0F0F0",
-    borderWidth: 1,
+    borderRadius: 15,
+    alignSelf: "center",
   },
   buttonText: {
+    textAlign: "center",
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
 });

@@ -1,5 +1,5 @@
 export default {
-  background: "#1A1A2E",
+  background: "#100C08",
   midnightPurple: "#2E0854",
   indigo: "#4B0082",
   text: "#FFFFFF",

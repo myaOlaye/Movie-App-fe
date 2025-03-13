@@ -9,37 +9,36 @@ import {
   StyleSheet,
 } from "react-native";
 
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w200";
 
 export const MoviesCard = ({ navigation, movies }) => {
-
   return (
     <View style={styles.container}>
       <FlatList
         data={movies}
-        keyExtractor={(item) => item.id.toString()}
+        horizontal={true}
+        key={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.card}>
             {item.poster_path ? (
-              <View style={styles.imageContainer}>
+              <TouchableOpacity
+                style={styles.imageContainer}
+                onPress={() =>
+                  navigation.navigate("MovieInfo", { id: item.id })
+                }
+              >
                 <Image
                   source={{ uri: `${IMAGE_BASE_URL}${item.poster_path}` }}
                   style={styles.imagePlaceholder}
                   resizeMode="cover"
                 />
-              </View>
+              </TouchableOpacity>
             ) : (
               <Text>No Image Available</Text>
             )}
 
             <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.date}>Release Date: {item.release_date}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.replace("MovieInfo", { id: item.id })}
-            >
-              <Text style={styles.buttonText}>View</Text>
-            </TouchableOpacity>
+            <Text style={styles.date}>{item.release_date}</Text>
           </View>
         )}
       />
@@ -53,8 +52,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   poster: {
-    width: 120,
-    height: 180,
     borderRadius: 8,
   },
   movieTitle: {
@@ -64,14 +61,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#1A1A2E",
-    padding: 10,
+    flexDirection: "row",
     width: "100%",
   },
   card: {
-    backgroundColor: "#FFFFFF",
+    width: 150,
+    marginRight: 1,
     borderRadius: 16,
-    padding: 16,
+    marginRight: 10,
     marginBottom: 16,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -80,12 +77,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   imageContainer: {
-    width: "100%",
-    height: 400,
+    width: 150,
+    height: 300,
     marginBottom: 12,
+
     borderRadius: 12,
     overflow: "hidden",
-    paddingVertical: 8,
   },
   imagePlaceholder: {
     width: "100%",
@@ -93,20 +90,21 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   title: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: "bold",
-    color: "#000",
+    color: "white",
     marginBottom: 4,
+    flexWrap: "wrap",
   },
   date: {
-    fontSize: 14,
+    fontSize: 10,
     color: "#888",
     marginBottom: 12,
   },
   button: {
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "#7F00FF",
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 5,
     alignItems: "center",
   },
   buttonText: {

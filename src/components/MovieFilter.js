@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Button } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { getGenres } from "../api";
+import colours from "../screens/theme/colours";
 
 export const MovieFilter = ({
   selectedGenres,
@@ -64,7 +65,7 @@ export const MovieFilter = ({
       <Button
         title="Update"
         onPress={closeFilterModal}
-        color='#FF004F'
+        color={colours.midnightPurple}
       />
       <View style={styles.genreContainer}>
         {genres.map((genre) => (
@@ -91,8 +92,8 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 50,
     marginVertical: 10,
-    backgroundColor: "#1A1A2E",
-    color: "white",
+    backgroundColor: "white",
+    color: "black",
     fontWeight: "bold",
   },
   genreContainer: {
@@ -101,18 +102,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   genreButton: {
-    backgroundColor: "#1A1A2E",
+    backgroundColor: "black",
     padding: 10,
     margin: 5,
-    borderRadius: 5,
-    borderColor: "white", // Added border color
-    borderWidth: 1, // Added border width
+    borderRadius: 30,
   },
   selectedGenreButton: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "red",
   },
   genreName: {
     color: "white",
   },
-  
 });

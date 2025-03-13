@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 
 export const SearchUser = ({ onSearch }) => {
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSearch = (text) => {
     setSearchInput(text);
-    onSearch(text)
+    onSearch(text);
   };
 
   return (
@@ -16,7 +16,7 @@ export const SearchUser = ({ onSearch }) => {
         style={styles.input}
         placeholder="Search for User"
         value={searchInput}
-        onChangeText={handleSearch} 
+        onChangeText={handleSearch}
       />
     </View>
   );
@@ -29,14 +29,14 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginBottom: 10,
-    color: 'white',
+    color: "white",
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    backgroundColor: 'gray',
+    backgroundColor: "gray",
   },
 });

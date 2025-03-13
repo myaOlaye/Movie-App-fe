@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, use } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   View,
   Text,
@@ -12,7 +13,7 @@ import { getMovies, searchMovies } from "../api";
 import { MovieFilter } from "../components/MovieFilter";
 import { MoviesSearch } from "../components/MovieSearch";
 import { MoviesCard } from "../components/MoviesCard";
-import { fetchToken } from "../api";
+import colours from "./theme/colours";
 
 export const MoviesScreen = ({ navigation }) => {
   const [movies, setMovies] = useState([]);
@@ -54,9 +55,19 @@ export const MoviesScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MoviesSearch setQuery={setQuery} />
-      <TouchableOpacity style={styles.filterButton} onPress={openFilterModal}>
-        <Text style = {styles.filterButtonText}>Filter</Text>
-      </TouchableOpacity>
+      <View style={styles.filters}>
+        <Ionicons
+          name="filter-outline"
+          size={24}
+          color="white"
+          style={styles.filterIcon}
+          onPress={openFilterModal}
+        />
+        <Text style={styles.filterText} onPress={openFilterModal}>
+          {" "}
+          Filter search
+        </Text>
+      </View>
 
       {loading && <Text>Loading...</Text>}
 
@@ -97,14 +108,13 @@ export const MoviesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 50, backgroundColor: '#1A1A2E' },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 8,
+  container: {
+    flex: 1,
+    padding: 30,
+    paddingBottom: 0,
+    backgroundColor: "#100C08",
   },
+
   movieContainer: {
     marginVertical: 10,
     alignItems: "center",
@@ -127,8 +137,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#2E0854",
-    borderRadius: 20,
+    backgroundColor: "grey",
+    borderRadius: 5,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
@@ -141,8 +151,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonClose: {
-    backgroundColor: "#FF004F",
-    borderRadius: 20,
+    backgroundColor: "red",
+    borderRadius: 5,
     padding: 10,
     elevation: 2,
     marginTop: 15,
@@ -152,25 +162,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  filters: { display: "flex", flexDirection: "row", alignItems: "center" },
+  filterIcon: {
+    color: "white",
+    marginHorizontal: 8,
+    marginVertical: 15,
+    display: "block",
+  },
+  filterText: {
+    color: "white",
+    fontSize: 12,
+  },
   modalText: {
     color: "white",
     fontSize: 18,
     marginBottom: 15,
     textAlign: "center",
-  },
-  filterButton: {
-    backgroundColor: '#2e0854',
-    borderRadius: 5,
-    alignItems: 'center',
-    marginVertical: 10,
-    padding: 10,
-    width: '50%',
-    alignSelf: 'center',
-    borderColor: 'white',
-    borderWidth: 1,
-  },
-  filterButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
 });

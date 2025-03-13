@@ -1,9 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MoviesScreen } from "../screens/MoviesScreen";
-import MovieInfo from "../screens/MovieInfo";
-import AddToListScreen from "../screens/AddToListScreen";
-import AddNoteScreen from "../screens/AddNoteScreen";
+import { MoviesScreen } from "../../src/screens/MoviesScreen";
+import MovieInfo from "../../src/screens/MovieInfo";
+import AddToListScreen from "../../src/screens/AddToListScreen";
+import AddNoteScreen from "../../src/screens/AddNoteScreen";
 
 const Stack = createNativeStackNavigator();
 

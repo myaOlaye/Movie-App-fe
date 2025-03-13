@@ -3,24 +3,23 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import MovieSearchStack from "./MovieSearchStack";
 import ProfileScreen from "../screens/Profile";
-
 import MyListsStack from "./MyListsStack";
+import colours from "../screens/theme/colours";
 
 const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   return (
     <Tab.Navigator
+      initialRouteName="MovieSearch"
       screenOptions={{
         tabBarStyle: {
-          height: 60,
-          paddingBottom: 5,
-          paddingTop: 5,
-          backgroundColor: "#fff",
-          borderTopWidth: 1,
-          borderTopColor: "#eee",
+          height: 80,
+          paddingTop: 8,
+          backgroundColor: colours.background,
+          borderColor: colours.background,
         },
-        tabBarActiveTintColor: "#007AFF",
+        tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "#8E8E93",
       }}
     >
@@ -45,7 +44,7 @@ function BottomTabNavigator() {
           ),
         }}
       />
-          <Tab.Screen
+      <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{

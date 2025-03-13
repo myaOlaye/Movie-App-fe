@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import MovieListItem from "../components/MovieListItem";
 import {
@@ -47,16 +48,17 @@ const MovieListScreen = () => {
             <Text style={styles.shareButtonText}>Share</Text>
           </TouchableOpacity>
 
-          {/* Movie List */}
-          {movies.map((movie) => (
-            <MovieListItem
-              key={movie.tmdb_movie_id}
-              movie={movie}
-              navigation={navigation}
-              style={styles.movieItem}
-              movielist_id={movielist_id}
-            />
-          ))}
+          <ScrollView>
+            {movies.map((movie) => (
+              <MovieListItem
+                key={movie.tmdb_movie_id}
+                movie={movie}
+                navigation={navigation}
+                style={styles.movieItem}
+                movielist_id={movielist_id}
+              />
+            ))}
+          </ScrollView>
         </View>
       )}
 
@@ -75,19 +77,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colours.background,
-    padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colours.text,
+    color: "white",
+    fontSize: 25,
     textAlign: "center",
-    marginBottom: 16, 
+    marginTop: 5,
+    padding: 20,
   },
   listContainer: {
     flex: 1,
     gap: 6,
-    paddingVertical: 4,
+    paddingVertical: 10,
     paddingHorizontal: 12,
   },
   emptyText: {
@@ -117,14 +118,14 @@ const styles = StyleSheet.create({
     backgroundColor: colours.indigo,
     shadowColor: colours.accent,
     marginBottom: 16,
-    height: 60, // Increased height for button appearance
-    justifyContent: "center",
-    borderRadius: 8, // Rounded corners for Share button
+    padding: 10,
+    width: "20%",
+    alignSelf: "end",
+    borderRadius: 15,
   },
   shareButtonText: {
     color: colours.text,
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 14,
     textAlign: "center",
   },
   circularAddButton: {
