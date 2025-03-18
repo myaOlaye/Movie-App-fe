@@ -34,7 +34,7 @@ export const MoviesCard = ({ navigation, movies }) => {
                 />
               </TouchableOpacity>
             ) : (
-              <Text>No Image Available</Text>
+              <Text style={styles.buttonText}>No Image Available</Text>
             )}
 
             <Text style={styles.title}>{item.title}</Text>

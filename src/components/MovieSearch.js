@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchToken } from "../api";
 
 import {
   View,
@@ -12,8 +13,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+
 export const MoviesSearch = ({ setQuery }) => {
   const [queryInput, setQueryInput] = useState("");
+  const [username, setUsername] = useState(null);
+
+  // At some point move all the user state to a context as this is repetitive
+  useEffect(() => {
+    fetchToken()
+      .then((res) => {
+        const { username } = res.data.decode;
+        setUsername(username);
+      })
+      .catch((err) => console.error("Error fetching token:", err));
+  }, []);
 
   const handleSearch = () => {
     setQuery(queryInput);
@@ -22,7 +35,7 @@ export const MoviesSearch = ({ setQuery }) => {
   return (
     <View>
       <Text style={styles.text}>
-        Hey Mya! Let's find something to watch...{" "}
+        Hey, {username}! Let's find something to watch...{" "}
       </Text>
       <View style={styles.searchBar}>
         <TouchableOpacity>
@@ -52,6 +65,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     paddingRight: 8,
     borderRadius: 5,
+    marginBottom: 30,
   },
   text: {
     color: "white",

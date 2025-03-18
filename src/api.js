@@ -35,6 +35,22 @@ export const getMovies = (
     });
 };
 
+export const getTopRatedMovies = (page = 1) => {
+  return api
+    .get("/movie/top_rated", {
+      params: {
+        api_key: API_KEY,
+        language: "en-US",
+        page,
+      },
+    })
+    .then(({ data }) => data.results)
+    .catch((error) => {
+      console.error("Error fetching movies:", error);
+      return [];
+    });
+};
+
 export const findMovieById = (movie_id) => {
   return api
     .get(`movie/${movie_id}`, {

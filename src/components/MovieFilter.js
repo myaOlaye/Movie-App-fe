@@ -89,13 +89,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
   },
-  dropdown: {
-    height: 50,
-    marginVertical: 10,
-    backgroundColor: "white",
-    color: "black",
-    fontWeight: "bold",
-  },
+  // dropdown: {
+  //   height: 50,
+  //   marginVertical: 10,
+  //   backgroundColor: "white",
+  //   color: "black",
+  //   fontWeight: "bold",
+  // },
   genreContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
